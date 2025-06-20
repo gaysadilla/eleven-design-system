@@ -39,6 +39,11 @@ export default function FigmaSync({ onSync }: FigmaSyncProps) {
     setResult(null);
 
     try {
+      // Temporarily disabled - Figma API needs FIGMA_ACCESS_TOKEN configuration
+      setError('Figma sync is temporarily disabled. Please configure FIGMA_ACCESS_TOKEN environment variable to enable this feature.');
+      return;
+
+      /* Commented out until Figma token is configured
       const response = await fetch('/api/figma/sync', {
         method: 'POST',
         headers: {
@@ -58,6 +63,7 @@ export default function FigmaSync({ onSync }: FigmaSyncProps) {
 
       setResult(data.data);
       onSync?.(data.data);
+      */
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

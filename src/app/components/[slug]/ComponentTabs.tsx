@@ -193,6 +193,9 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
   // Use TinaCMS data for tinaField calls if available
   const tinaDataForFields = tinaProps?.data?.page || tinaProps?.data || data;
   
+  // Ensure blocks is always an array to prevent length errors
+  const safeBlocks = Array.isArray(blockData?.overview?.blocks) ? blockData.overview.blocks : [];
+  
   const tocConfig = {
     enabled: blockData.tableOfContents?.enabled ?? true,
     maxDepth: blockData.tableOfContents?.maxDepth ?? 4,
@@ -221,9 +224,9 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
         )}
 
                 {/* Content Blocks - Visual Editing */}
-        {blockData.overview?.blocks && blockData.overview.blocks.length > 0 && (
+        {safeBlocks.length > 0 && (
           <div className="space-y-6">
-            {blockData.overview.blocks.map((block: any, index: number) => (
+            {safeBlocks.map((block: any, index: number) => (
                               <div
                   key={index}
                   data-tina-field={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}

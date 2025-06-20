@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import ComponentTabs from './ComponentTabs';
 import VisualEditingProvider from '@/components/VisualEditingProvider';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 interface ComponentPageData {
   frontmatter: any;
@@ -142,21 +143,27 @@ export default async function ComponentPage({
   // If we have TinaCMS data, use visual editing provider
   if (data.source === 'tina' && data.tinaData) {
     return (
-      <VisualEditingProvider
-        query={data.tinaData.query}
-        variables={data.tinaData.variables}
-        data={data.tinaData.data}
-      >
-        <ComponentTabs 
-          data={data.frontmatter} 
-          isEditing={isEditing} 
+      <ErrorBoundary>
+        <VisualEditingProvider
           query={data.tinaData.query}
           variables={data.tinaData.variables}
-        />
-      </VisualEditingProvider>
+          data={data.tinaData.data}
+        >
+          <ComponentTabs 
+            data={data.frontmatter} 
+            isEditing={isEditing} 
+            query={data.tinaData.query}
+            variables={data.tinaData.variables}
+          />
+        </VisualEditingProvider>
+      </ErrorBoundary>
     );
   }
 
   // Otherwise use regular component tabs (file-based fallback)
-  return <ComponentTabs data={data.frontmatter} isEditing={isEditing} />;
+  return (
+    <ErrorBoundary>
+      <ComponentTabs data={data.frontmatter} isEditing={isEditing} />
+    </ErrorBoundary>
+  );
 } 
