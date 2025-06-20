@@ -16,6 +16,12 @@ interface ComponentPageData {
 }
 
 async function getComponentData(slug: string): Promise<ComponentPageData | null> {
+  // Check if client is properly initialized
+  if (!client) {
+    console.error('TinaCMS client is not initialized');
+    return null;
+  }
+
   // Try different case variations for file names
   const variations = [
     slug,
@@ -28,11 +34,14 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
   // Try TinaCMS with different case variations
   for (const variation of variations) {
     try {
+      console.log(`Trying to fetch: ${variation}.mdx`);
+      
       const tinaData = await client.queries.page({
         relativePath: `${variation}.mdx`,
       });
       
       if (tinaData?.data?.page) {
+        console.log(`Successfully fetched data for: ${variation}.mdx`);
         return {
           frontmatter: tinaData.data.page,
           tinaData
@@ -44,6 +53,7 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
     }
   }
 
+  console.error(`No data found for any variation of slug: ${slug}`);
   return null;
 }
 
@@ -73,6 +83,11 @@ export default async function ComponentPage({
     // Await the params promise (Next.js 15 requirement)
     const { slug } = await params;
     
+    if (!slug) {
+      console.error('No slug provided');
+      throw new Error('Missing slug parameter');
+    }
+    
     console.log('Fetching component data for slug:', slug);
     const data = await getComponentData(slug);
     
@@ -90,6 +105,16 @@ export default async function ComponentPage({
       );
     }
 
+    // Validate the data structure
+    if (!data.tinaData?.query || !data.tinaData?.variables || !data.tinaData?.data) {
+      console.error('Invalid TinaCMS data structure:', {
+        hasQuery: !!data.tinaData?.query,
+        hasVariables: !!data.tinaData?.variables,
+        hasData: !!data.tinaData?.data
+      });
+      throw new Error('Invalid TinaCMS data structure');
+    }
+
     return (
       <ErrorBoundary>
         <TinaWrapper 
@@ -103,11 +128,21 @@ export default async function ComponentPage({
     );
   } catch (error) {
     console.error('Error in ComponentPage:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    
     return (
       <div className="container mx-auto py-8">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">Error Loading Component</h1>
           <p className="text-muted-foreground mb-6">An error occurred while loading this component.</p>
+          {process.env.NODE_ENV === 'development' && error instanceof Error && (
+            <pre className="text-left bg-gray-100 p-4 rounded mb-6 overflow-auto">
+              {error.message}
+            </pre>
+          )}
           <Link href="/components">
             <Button>Back to Components</Button>
           </Link>
