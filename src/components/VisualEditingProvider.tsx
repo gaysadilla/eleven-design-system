@@ -16,9 +16,21 @@ export default function VisualEditingProvider({
   variables,
   data 
 }: VisualEditingProviderProps) {
+  // Check if we're in editing mode (when accessed from TinaCMS)
+  const isEditing = typeof window !== 'undefined' && 
+    (window.location.search.includes('tina-edit') || 
+     window.location.search.includes('edit=true') ||
+     window.parent !== window); // iframe detection
+
   // Use TinaCMS for visual editing if we have the required props
   const tinaProps = React.useMemo(() => {
     try {
+      // Only use TinaCMS if we're actually in editing mode
+      if (!isEditing) {
+        console.log('🔍 VisualEditingProvider - Not in editing mode, skipping useTina');
+        return { data };
+      }
+
       console.log('🔍 VisualEditingProvider useTina input - query exists:', !!query);
       console.log('🔍 VisualEditingProvider useTina input - variables:', variables);
       console.log('🔍 VisualEditingProvider useTina input - data:', data);
@@ -41,13 +53,7 @@ export default function VisualEditingProvider({
       console.error('TinaCMS useTina error:', error);
       return { data };
     }
-  }, [query, variables, data]);
-
-  // Check if we're in editing mode (when accessed from TinaCMS)
-  const isEditing = typeof window !== 'undefined' && 
-    (window.location.search.includes('tina-edit') || 
-     window.location.search.includes('edit=true') ||
-     window.parent !== window); // iframe detection
+  }, [query, variables, data, isEditing]);
 
 
 

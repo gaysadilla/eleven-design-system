@@ -139,7 +139,8 @@ export default async function ComponentPage({
   const data = await getComponentData(slug);
   
   // Check if we're in visual editing mode
-  const isEditing = search?.edit === 'true' || search?.tina === 'true';
+  const isEditing = search?.edit === 'true' || search?.tina === 'true' || 
+                   (typeof window !== 'undefined' && window.parent !== window); // iframe detection
   
   if (!data) {
     return (

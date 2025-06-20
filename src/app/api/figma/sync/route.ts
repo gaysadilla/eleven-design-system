@@ -2,53 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { FigmaAPI, syncFigmaComponent } from '@/lib/figma';
 
 export async function POST(request: NextRequest) {
-  try {
-    const { figmaUrl, componentName, debug, bustCache } = await request.json();
-    
-    if (debug) {
-      // Debug mode: return file structure
-      const figma = new FigmaAPI();
-      const fileKey = FigmaAPI.extractFileKey(figmaUrl);
-      
-      if (!fileKey) {
-        return NextResponse.json({ error: 'Invalid Figma URL' }, { status: 400 });
-      }
-      
-      const file = await figma.getFile(fileKey);
-      const nodeId = FigmaAPI.extractNodeId(figmaUrl);
-      
-      return NextResponse.json({
-        success: true,
-        debug: {
-          fileKey,
-          nodeId,
-          componentCount: Object.keys(file.components || {}).length,
-          componentKeys: Object.keys(file.components || {}),
-          components: Object.values(file.components || {}).map(c => ({
-            name: c.name,
-            key: c.key,
-            description: c.description
-          }))
-        }
-      });
-    }
-
-    const result = await syncFigmaComponent(figmaUrl, componentName || 'Component', bustCache);
-    
-    return NextResponse.json({
-      success: true,
-      data: result
-    });
-  } catch (error) {
-    console.error('Error syncing Figma component:', error);
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Unknown error' 
-      }, 
-      { status: 500 }
-    );
-  }
+  // Temporarily disabled - return early to prevent errors
+  return NextResponse.json({
+    success: false,
+    error: 'Figma sync is temporarily disabled. Please configure FIGMA_ACCESS_TOKEN environment variable.'
+  }, { status: 503 });
 }
 
 export async function GET(request: NextRequest) {
