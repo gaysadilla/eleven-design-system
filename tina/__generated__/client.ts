@@ -12,14 +12,7 @@ const apiUrl = clientId
   ? `https://content.tinajs.io/content/${clientId}/github/${branch}`
   : 'http://localhost:4001/graphql';
 
-// Debug logging
-console.log('🔍 TinaCMS Client Configuration:', {
-  isProduction,
-  clientId: clientId ? `${clientId.substring(0, 8)}...` : 'missing',
-  token: token ? 'present' : 'missing',
-  branch,
-  apiUrl
-});
+
 
 export const client = createClient({ 
   url: apiUrl,

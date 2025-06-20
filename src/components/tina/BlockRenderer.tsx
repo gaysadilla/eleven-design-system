@@ -104,44 +104,9 @@ const FigmaPreview = ({ figmaUrl, componentName }: { figmaUrl: string; component
   const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    const fetchFigmaPreview = async () => {
-      if (!figmaUrl) return;
-
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch('/api/figma/sync', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            figmaUrl,
-            componentName: componentName || 'Component',
-          }),
-        });
-
-        const responseData = await response.json();
-
-        if (!response.ok) {
-          throw new Error(responseData.message || 'Failed to fetch Figma preview');
-        }
-
-        if (responseData.data?.imageUrl) {
-          setData(responseData.data);
-        } else {
-          setError('No preview image available');
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load Figma preview';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchFigmaPreview();
+    // Temporarily disabled to prevent 503 errors
+    setError('Figma sync is temporarily disabled. Configure FIGMA_ACCESS_TOKEN to enable previews.');
+    setLoading(false);
   }, [figmaUrl, componentName]);
 
   if (loading) {

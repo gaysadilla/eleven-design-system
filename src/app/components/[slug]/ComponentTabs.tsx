@@ -192,7 +192,15 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
   const blockData = tinaData?.data?.page || tinaProps?.data?.page || tinaProps?.data || data;
   
   // Ensure blocks is always an array to prevent length errors
-  const safeBlocks = Array.isArray(blockData?.overview?.blocks) ? blockData.overview.blocks : [];
+  const safeBlocks = React.useMemo(() => {
+    try {
+      const blocks = blockData?.overview?.blocks;
+      return Array.isArray(blocks) ? blocks : [];
+    } catch (error) {
+      console.warn('Error accessing overview blocks:', error);
+      return [];
+    }
+  }, [blockData]);
   
   const tocConfig = {
     enabled: blockData.tableOfContents?.enabled ?? true,
@@ -666,23 +674,8 @@ function CodeTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditin
 export default function ComponentTabs({ data, isEditing, tinaProps, query, variables }: ComponentTabsProps) {
   const [activeTab, setActiveTab] = useState('overview');
   
-  // Use TinaCMS hook directly when in editing mode for proper metadata
-  const tinaData = React.useMemo(() => {
-    try {
-      if (isEditing && query && variables && data) {
-        const result = useTina({
-          query,
-          variables,
-          data: { page: data }
-        });
-        return result;
-      }
-      return null;
-    } catch (error) {
-      console.error('TinaCMS useTina error:', error);
-      return null;
-    }
-  }, [isEditing, query, variables, data]);
+  // Use the TinaCMS data passed from VisualEditingProvider
+  const tinaData = tinaProps;
   
   // Use the enhanced data from TinaCMS or fallback to original data
   const enhancedData = tinaData?.data?.page || tinaProps?.data || data;

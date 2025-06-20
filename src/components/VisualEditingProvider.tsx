@@ -23,37 +23,21 @@ export default function VisualEditingProvider({
      window.parent !== window); // iframe detection
 
   // Use TinaCMS for visual editing if we have the required props
-  const tinaProps = React.useMemo(() => {
-    try {
-      // Only use TinaCMS if we're actually in editing mode
-      if (!isEditing) {
-        console.log('🔍 VisualEditingProvider - Not in editing mode, skipping useTina');
-        return { data };
-      }
-
-      console.log('🔍 VisualEditingProvider useTina input - query exists:', !!query);
-      console.log('🔍 VisualEditingProvider useTina input - variables:', variables);
-      console.log('🔍 VisualEditingProvider useTina input - data:', data);
-      console.log('🔍 VisualEditingProvider useTina input - data?.page:', data?.page);
-      console.log('🔍 VisualEditingProvider useTina input - data?.page?.overview:', data?.page?.overview);
-
-      const result = query && data ? useTina({
+  let tinaProps;
+  try {
+    if (isEditing && query && data) {
+      tinaProps = useTina({
         query,
         variables,
-        data,
-      }) : { data };
-
-      console.log('🔍 VisualEditingProvider useTina result - result:', result);
-      console.log('🔍 VisualEditingProvider useTina result - result?.data:', result?.data);
-      console.log('🔍 VisualEditingProvider useTina result - result?.data?.page:', result?.data?.page);
-      console.log('🔍 VisualEditingProvider useTina result - result?.data?.page?.overview:', result?.data?.page?.overview);
-
-      return result;
-    } catch (error) {
-      console.error('TinaCMS useTina error:', error);
-      return { data };
+        data: { page: data },
+      });
+    } else {
+      tinaProps = { data };
     }
-  }, [query, variables, data, isEditing]);
+  } catch (error) {
+    console.error('TinaCMS useTina error:', error);
+    tinaProps = { data };
+  }
 
 
 
