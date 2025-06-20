@@ -189,9 +189,9 @@ function renderRichContent(content: any): React.ReactNode {
 
 function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
   // Use enhanced data from TinaCMS if available
-  const blockData = tinaProps?.data || data;
+  const blockData = tinaProps?.data?.page || tinaProps?.data || data;
   // Use TinaCMS data for tinaField calls if available
-  const tinaDataForFields = tinaData?.data?.page || tinaProps?.data || data;
+  const tinaDataForFields = tinaProps?.data?.page || tinaProps?.data || data;
   
   const tocConfig = {
     enabled: blockData.tableOfContents?.enabled ?? true,
@@ -226,10 +226,13 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
             {blockData.overview.blocks.map((block: any, index: number) => (
                               <div
                   key={index}
-                  data-tina-field={isEditing && tinaData ? tinaField(tinaDataForFields.overview, `blocks.${index}`) : undefined}
+                  data-tina-field={isEditing && tinaProps ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
                   className={isEditing ? 'tina-block-editable' : ''}
                 >
-                  <BlockRenderer blocks={[block]} />
+                  <BlockRenderer 
+                    blocks={[block]} 
+                    tinaField={isEditing && tinaProps ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
+                  />
                 </div>
             ))}
           </div>
@@ -239,7 +242,7 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
         {blockData.content && (
           <div 
             className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing && tinaData ? tinaField(tinaDataForFields, 'content') : undefined}
+            data-tina-field={isEditing && tinaProps ? tinaField(tinaDataForFields, 'content') : undefined}
           >
             {isEditing && (
               <div className="text-sm text-blue-600 mb-4 font-medium">
