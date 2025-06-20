@@ -466,6 +466,15 @@ var config_default = defineConfig({
       publicFolder: "public"
     }
   },
+  // Visual editing configuration for TinaCloud
+  ui: {
+    previewUrl: ({ branch: branch2 }) => {
+      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : true ? "http://localhost:3000" : "https://eleven-design-system.vercel.app";
+      return {
+        url: baseUrl
+      };
+    }
+  },
   // Enhanced schema for ZeroHeight-style documentation
   schema: {
     collections: [
@@ -690,6 +699,12 @@ var config_default = defineConfig({
         label: "Documentation Pages",
         path: "content/pages",
         format: "mdx",
+        ui: {
+          router: ({ document }) => {
+            const slug = document.slug || document._sys.filename.replace(/\.mdx?$/, "");
+            return `/components/${slug}`;
+          }
+        },
         defaultItem: () => {
           return {
             title: "New Component",

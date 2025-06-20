@@ -10,6 +10,7 @@
     "dev:status": "echo '=== Development Server Status ===' && lsof -i :3000 -i :4001 -i :9001 || echo 'No servers running'",
     "dev:tina": "tinacms dev -c \"next dev\"",
     "build": "tinacms build && next build",
+    "build:cloud": "tinacms build --skip-cloud-checks && next build",
     "start": "next start",
     "lint": "next lint",
     "tina:dev": "tinacms dev --datalayer-port 9001",

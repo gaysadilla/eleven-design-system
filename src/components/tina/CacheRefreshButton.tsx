@@ -11,7 +11,8 @@ const CacheRefreshButton = (props: any) => {
   const testApiConnectivity = async () => {
     console.log('🧪 Testing API connectivity...');
     try {
-      const response = await fetch('http://localhost:3000/api/health');
+      const baseUrl = getApiUrl();
+      const response = await fetch(`${baseUrl}/api/health`);
       console.log('🧪 Health check response:', response.status);
       const data = await response.json();
       console.log('🧪 Health check data:', data);
@@ -37,83 +38,23 @@ const CacheRefreshButton = (props: any) => {
       const formData = form.getState().values;
       console.log('🔍 Form data:', formData);
       
-      // Determine the correct API URL (TinaCMS runs on different port than Next.js)
-      // Check if we're in TinaCMS admin interface
-      const isTinaCMS = window.location.port === '4001' || window.location.port === '9001' || window.location.pathname.startsWith('/admin');
+      // Use the deployed API endpoint
+      const baseUrl = getApiUrl();
+      const apiUrl = `${baseUrl}/api/figma/refresh-page`;
+      console.log(`🔍 Attempting request to: ${apiUrl}`);
+      console.log(`🔍 Sending data:`, JSON.stringify({ pageData: formData }, null, 2));
       
-      let response;
-      if (isTinaCMS) {
-        // Try multiple common Next.js ports (start with most likely)
-        const possiblePorts = [
-          process.env.NEXT_PUBLIC_NEXTJS_PORT, // Custom env var if set
-          '3000', // Default Next.js port (try first)
-          '3001', // Most common when 3000 is taken
-          '3002', '3003', '3004' // Other common alternatives
-        ].filter(Boolean); // Remove undefined values
-        
-        let lastError;
-        
-                 for (const port of possiblePorts) {
-           try {
-             console.log(`🔍 Trying Next.js API on port ${port}...`);
-             
-             // First do a quick health check to see if the port is responding
-             const healthUrl = `http://localhost:${port}/api/health`;
-             try {
-               await fetch(healthUrl, { method: 'HEAD' });
-             } catch {
-               // If health check fails, skip to the main API call
-             }
-             
-             const apiUrl = `http://localhost:${port}/api/figma/refresh-page`;
-             console.log(`🔍 Attempting request to: ${apiUrl}`);
-             console.log(`🔍 Sending data:`, JSON.stringify({ pageData: formData }, null, 2));
-             
-             response = await fetch(apiUrl, {
-               method: 'POST',
-               headers: {
-                 'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({
-                 pageData: formData
-               }),
-             });
-             
-             console.log(`🔍 Response status: ${response.status}`);
-             console.log(`🔍 Response headers:`, Object.fromEntries(response.headers.entries()));
-             
-             if (response.ok) {
-               console.log(`✅ Successfully connected to Next.js on port ${port}`);
-               break;
-             } else {
-               const errorText = await response.text();
-               console.log(`❌ Port ${port} responded but with error: ${response.status}`);
-               console.log(`❌ Error response:`, errorText);
-             }
-           } catch (error) {
-             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-             console.log(`❌ Port ${port} failed: ${errorMessage}`);
-             lastError = error;
-             continue;
-           }
-         }
-         
-         if (!response || !response.ok) {
-           const lastErrorMessage = lastError instanceof Error ? lastError.message : 'Unknown error';
-           throw new Error(`Could not connect to Next.js API on any port. Last error: ${lastErrorMessage}`);
-         }
-      } else {
-        // We're on the Next.js site, use relative URL
-        response = await fetch('/api/figma/refresh-page', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            pageData: formData
-          }),
-        });
-      }
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pageData: formData
+        }),
+      });
+      
+      console.log(`🔍 Response status: ${response.status}`);
 
       const result = await response.json();
       
@@ -136,6 +77,25 @@ const CacheRefreshButton = (props: any) => {
     } finally {
       setIsRefreshing(false);
     }
+  };
+
+  // Try to get the API endpoint from environment or current host
+  const getApiUrl = () => {
+    if (typeof window !== 'undefined') {
+      return window.location.origin;
+    }
+    return process.env.NEXT_PUBLIC_VERCEL_URL 
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+      : 'https://eleven-design-system.vercel.app';
+  };
+
+  // Detect the current port from the browser URL
+  const getPortFromUrl = () => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      return url.port || (url.protocol === 'https:' ? '443' : '80');
+    }
+    return '443'; // Default to HTTPS port
   };
 
   return (

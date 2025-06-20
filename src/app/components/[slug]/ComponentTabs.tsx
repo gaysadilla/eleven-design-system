@@ -12,6 +12,7 @@ import { TinaComponents } from '@/components/tina/TinaComponents';
 import { BlockRenderer } from '@/components/tina/BlockRenderer';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
 import { tinaField } from 'tinacms/dist/react';
+import TinaDebugInfo from '@/components/TinaDebugInfo';
 
 interface ComponentTabsProps {
   data: any;
@@ -627,7 +628,8 @@ export default function ComponentTabs({ data }: ComponentTabsProps) {
 
   return (
     <div className="container mx-auto py-8">
-
+      {/* TinaCMS Debug Info */}
+      <TinaDebugInfo />
 
       {/* Header */}
       <div className="mb-8">

@@ -34,9 +34,7 @@ export default defineConfig({
       // Use the deployed URL for visual editing
       const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
         ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-        : process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3000'
-          : 'https://eleven-design-system.vercel.app';
+        : 'https://eleven-design-system.vercel.app';
       
       return {
         url: baseUrl
