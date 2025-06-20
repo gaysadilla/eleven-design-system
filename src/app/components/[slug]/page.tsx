@@ -115,56 +115,16 @@ export default async function ComponentPage({
       throw new Error('Invalid TinaCMS data structure');
     }
 
-    // DEBUG: Return a simple version first to isolate the issue
-    return (
-      <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-4">Debug: Component Data</h1>
-        <div className="bg-gray-100 p-4 rounded mb-4">
-          <p><strong>Slug:</strong> {slug}</p>
-          <p><strong>Title:</strong> {data.frontmatter?.title || 'No title'}</p>
-          <p><strong>Description:</strong> {data.frontmatter?.description || 'No description'}</p>
-          <p><strong>Status:</strong> {data.frontmatter?.status || 'No status'}</p>
-        </div>
-        
-        <div className="bg-blue-50 p-4 rounded mb-4">
-          <h2 className="font-bold mb-2">TinaCMS Data Structure:</h2>
-          <p>Has Query: {data.tinaData?.query ? '✅' : '❌'}</p>
-          <p>Has Variables: {data.tinaData?.variables ? '✅' : '❌'}</p>
-          <p>Has Data: {data.tinaData?.data ? '✅' : '❌'}</p>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">Now Testing TinaWrapper (Fixed):</h2>
-          <ErrorBoundary>
-            <TinaWrapper 
-              query={data.tinaData.query}
-              variables={data.tinaData.variables}
-              data={data.tinaData.data}
-              pageData={data.frontmatter}
-            />
-          </ErrorBoundary>
-        </div>
-        
-        <Link href="/components" className="inline-block mt-4">
-          <Button>Back to Components</Button>
-        </Link>
-      </div>
-    );
-
-    // Original complex component (commented out for debugging)
-    /*
+    // Return the full component with TinaCMS integration
     return (
       <ErrorBoundary>
         <TinaWrapper 
           query={data.tinaData.query}
           variables={data.tinaData.variables}
           data={data.tinaData.data}
-        >
-          {(tinaData) => <ComponentTabs data={tinaData} />}
-        </TinaWrapper>
+        />
       </ErrorBoundary>
     );
-    */
   } catch (error) {
     console.error('Error in ComponentPage:', error);
     console.error('Error details:', {

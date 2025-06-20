@@ -2,15 +2,15 @@
 
 import React from 'react';
 import { useTina } from 'tinacms/dist/react';
+import ComponentTabs from './ComponentTabs';
 
 interface TinaWrapperProps {
   query: string;
   variables: any;
   data: any;
-  pageData: any;
 }
 
-export default function TinaWrapper({ query, variables, data, pageData }: TinaWrapperProps) {
+export default function TinaWrapper({ query, variables, data }: TinaWrapperProps) {
   // Use TinaCMS hook for visual editing
   const tina = useTina({
     query,
@@ -18,13 +18,6 @@ export default function TinaWrapper({ query, variables, data, pageData }: TinaWr
     data,
   });
 
-  // Simple debug display instead of render props
-  return (
-    <div className="bg-green-50 p-4 rounded">
-      <p>✅ TinaWrapper is working!</p>
-      <p><strong>Data title:</strong> {tina.data.page?.title}</p>
-      <p><strong>Tina enabled:</strong> {tina.isClient ? 'Yes (Client)' : 'No (Server)'}</p>
-      <p><strong>Original title:</strong> {pageData?.title}</p>
-    </div>
-  );
+  // Render ComponentTabs with TinaCMS data
+  return <ComponentTabs data={tina.data.page} />;
 } 
