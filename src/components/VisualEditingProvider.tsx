@@ -17,11 +17,18 @@ export default function VisualEditingProvider({
   data 
 }: VisualEditingProviderProps) {
   // Use TinaCMS for visual editing if we have the required props
-  const tinaProps = query && data ? useTina({
-    query,
-    variables,
-    data,
-  }) : { data };
+  const tinaProps = React.useMemo(() => {
+    try {
+      return query && data ? useTina({
+        query,
+        variables,
+        data,
+      }) : { data };
+    } catch (error) {
+      console.error('TinaCMS useTina error:', error);
+      return { data };
+    }
+  }, [query, variables, data]);
 
   // Check if we're in editing mode (when accessed from TinaCMS)
   const isEditing = typeof window !== 'undefined' && 
@@ -90,37 +97,43 @@ export default function VisualEditingProvider({
   }, [isEditing]);
 
   // Pass the Tina data to children
-  if (React.isValidElement(children)) {
-    return (
-      <>
-        {isEditing && (
-          <div className="fixed top-0 left-0 right-0 z-50 bg-blue-600 text-white px-4 py-2 text-sm">
-            <div className="flex items-center justify-between">
-              <span>🎨 Visual Editing Mode - Click on content to edit inline</span>
-              <div className="flex items-center space-x-4">
-                <span className="text-xs opacity-75">
-                  Hover over content to see edit options
-                </span>
-                <a 
-                  href={window.location.pathname}
-                  className="bg-white text-blue-600 px-3 py-1 rounded text-xs hover:bg-gray-100"
-                >
-                  Exit Editing
-                </a>
+  try {
+    if (React.isValidElement(children)) {
+      return (
+        <>
+          {isEditing && (
+            <div className="fixed top-0 left-0 right-0 z-50 bg-blue-600 text-white px-4 py-2 text-sm">
+              <div className="flex items-center justify-between">
+                <span>🎨 Visual Editing Mode - Click on content to edit inline</span>
+                <div className="flex items-center space-x-4">
+                  <span className="text-xs opacity-75">
+                    Hover over content to see edit options
+                  </span>
+                  <a 
+                    href={typeof window !== 'undefined' ? window.location.pathname : '/'}
+                    className="bg-white text-blue-600 px-3 py-1 rounded text-xs hover:bg-gray-100"
+                  >
+                    Exit Editing
+                  </a>
+                </div>
               </div>
             </div>
+          )}
+          <div className={isEditing ? 'pt-12' : ''}>
+            {React.cloneElement(children as React.ReactElement<any>, {
+              data: tinaProps?.data || data,
+              isEditing,
+              tinaProps: tinaProps
+            })}
           </div>
-        )}
-        <div className={isEditing ? 'pt-12' : ''}>
-          {React.cloneElement(children as React.ReactElement<any>, {
-            data: tinaProps.data,
-            isEditing,
-            tinaProps: tinaProps
-          })}
-        </div>
-      </>
-    );
-  }
+        </>
+      );
+    }
 
-  return <>{children}</>;
+    return <>{children}</>;
+  } catch (error) {
+    console.error('VisualEditingProvider render error:', error);
+    // Fallback to children without TinaCMS enhancements
+    return <>{children}</>;
+  }
 } 

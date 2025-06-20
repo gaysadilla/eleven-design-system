@@ -226,12 +226,12 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
             {blockData.overview.blocks.map((block: any, index: number) => (
                               <div
                   key={index}
-                  data-tina-field={isEditing && tinaProps ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
+                  data-tina-field={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
                   className={isEditing ? 'tina-block-editable' : ''}
                 >
                   <BlockRenderer 
                     blocks={[block]} 
-                    tinaField={isEditing && tinaProps ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
+                    tinaField={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
                   />
                 </div>
             ))}
@@ -242,7 +242,7 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
         {blockData.content && (
           <div 
             className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing && tinaProps ? tinaField(tinaDataForFields, 'content') : undefined}
+            data-tina-field={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, 'content') : undefined}
           >
             {isEditing && (
               <div className="text-sm text-blue-600 mb-4 font-medium">
