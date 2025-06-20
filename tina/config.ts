@@ -5,8 +5,13 @@ import CacheRefreshButton from "../src/components/tina/CacheRefreshButton";
 
 
 
+const branch = process.env.NEXT_PUBLIC_TINA_BRANCH || 
+              process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || 
+              process.env.HEAD || 
+              "main";
+
 export default defineConfig({
-  branch: "main",
+  branch,
   // For local development, these can be empty
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
