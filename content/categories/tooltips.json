@@ -1,0 +1,12 @@
+{
+  "title": "Tooltips",
+  "slug": "tooltips",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Tooltip and popover components for contextual information",
+  "order": 10,
+  "enabled": true,
+  "icon": "info",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

@@ -1,0 +1,423 @@
+---
+title: Data Table
+slug: data-table
+section: content/sections/components.json
+componentGroup: content/component-groups/engineering-components.json
+description: 'Advanced table component for displaying and manipulating large datasets with sorting, filtering, and pagination'
+status: stable
+version: 2.1.0
+order: 5
+enabled: true
+links:
+  figmaUrl: 'https://figma.com/file/abc123/data-table'
+  storybookUrl: 'https://storybook.eleven-design.com/?path=/story/data-table'
+  githubUrl: 'https://github.com/eleven/design-system/tree/main/components/data-table'
+overview:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: 'The Data Table component provides a robust solution for displaying and interacting with tabular data. It supports advanced features like sorting, filtering, row selection, and pagination, making it ideal for dashboards, admin interfaces, and data-heavy applications.'
+      - type: h3
+        children:
+          - text: Key Features
+      - type: ul
+        children:
+          - type: li
+            children:
+              - text: Flexible column configuration with custom renderers
+          - type: li
+            children:
+              - text: Built-in sorting and filtering capabilities
+          - type: li
+            children:
+              - text: Row selection (single and multiple)
+          - type: li
+            children:
+              - text: Pagination with customizable page sizes
+          - type: li
+            children:
+              - text: Responsive design with horizontal scrolling
+          - type: li
+            children:
+              - text: Accessibility compliant with keyboard navigation
+  examples:
+    - title: Basic Usage
+      description: Simple table with static data
+      code: |
+        import { DataTable } from '@eleven/design-system';
+
+        const data = [
+          { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+          { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' }
+        ];
+
+        const columns = [
+          { key: 'name', header: 'Name', sortable: true },
+          { key: 'email', header: 'Email' },
+          { key: 'role', header: 'Role', filterable: true }
+        ];
+
+        <DataTable data={data} columns={columns} />
+      preview: true
+    - title: With Selection
+      description: Table with row selection capabilities
+      code: |
+        <DataTable 
+          data={data} 
+          columns={columns}
+          selectable
+          onSelectionChange={(selected) => console.log(selected)}
+        />
+      preview: true
+  usage:
+    type: root
+    children:
+      - type: p
+        children:
+          - type: text
+            text: 'Use Data Table when you need to display structured data that users might want to sort, filter, or interact with. It''s particularly useful for:'
+      - type: ul
+        children:
+          - type: li
+            children:
+              - type: text
+                text: User management interfaces
+          - type: li
+            children:
+              - type: text
+                text: Product catalogs and inventories
+          - type: li
+            children:
+              - type: text
+                text: Financial transactions and reports
+          - type: li
+            children:
+              - type: text
+                text: Analytics dashboards
+specs:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: 'The Data Table component is built with performance and flexibility in mind, supporting both client-side and server-side data operations.'
+  properties:
+    - name: data
+      type: 'Array<Record<string, any>>'
+      required: true
+      description: Array of data objects to display in the table
+    - name: columns
+      type: Array<ColumnDef>
+      required: true
+      description: 'Column definitions including headers, keys, and behavior'
+    - name: selectable
+      type: boolean
+      default: 'false'
+      required: false
+      description: Enable row selection functionality
+    - name: sortable
+      type: boolean
+      default: 'true'
+      required: false
+      description: Enable column sorting globally
+    - name: filterable
+      type: boolean
+      default: 'false'
+      required: false
+      description: Enable global filtering
+    - name: pagination
+      type: boolean | PaginationConfig
+      default: 'false'
+      required: false
+      description: Enable pagination with optional configuration
+    - name: loading
+      type: boolean
+      default: 'false'
+      required: false
+      description: Show loading state
+    - name: onSelectionChange
+      type: '(selected: Array<any>) => void'
+      required: false
+      description: Callback fired when row selection changes
+    - name: onSortChange
+      type: '(sort: SortConfig) => void'
+      required: false
+      description: Callback fired when sorting changes
+  measurements:
+    minHeight: 200px
+    maxHeight: 600px
+    rowHeight: 48px
+    headerHeight: 56px
+    borderRadius: 8px
+    borderWidth: 1px
+  variants:
+    - name: Compact
+      description: Smaller row height for dense data display
+      props: size='compact'
+      usage: Use when displaying many rows in limited space
+    - name: Comfortable
+      description: Larger row height for better readability
+      props: size='comfortable'
+      usage: Use when content readability is more important than density
+    - name: Striped
+      description: Alternating row background colors
+      props: 'striped={true}'
+      usage: Improves row scanning in large tables
+guidelines:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: 'Data tables should be used thoughtfully to present information in a scannable, actionable format that doesn''t overwhelm users.'
+  dos:
+    - text: 'Use clear, descriptive column headers'
+      example: Use 'Date Created' instead of 'Date'
+    - text: Provide sorting for numeric and date columns
+      example: Allow users to sort by price or creation date
+    - text: Use appropriate data formatting
+      example: 'Format dates consistently (MM/DD/YYYY) and currencies ($1,234.56)'
+    - text: Implement pagination for large datasets
+      example: Show 25-50 rows per page for optimal performance
+    - text: Provide loading states during data fetching
+  donts:
+    - text: Don't overcrowd tables with too many columns
+      example: 'Limit to 6-8 columns on desktop, fewer on mobile'
+    - text: Don't use tables for non-tabular data
+      example: Use cards or lists for varied content types
+    - text: Don't disable sorting without explanation
+      example: 'If a column can''t be sorted, explain why'
+    - text: Don't use vague or technical column names
+      example: Avoid 'UUID' or 'Created_TS' in user-facing tables
+  accessibility:
+    content:
+      type: doc
+      children:
+        - type: p
+          children:
+            - text: Data tables must be accessible to screen readers and keyboard users. This includes proper semantic markup and keyboard navigation support.
+    requirements:
+      - requirement: 'Table must have proper table semantics with thead, tbody, and th elements'
+        level: AA
+      - requirement: Sortable columns must indicate sort direction to screen readers
+        level: AA
+      - requirement: Table must be keyboard navigable with arrow keys
+        level: AA
+      - requirement: Selected rows must be announced to screen readers
+        level: AA
+  bestPractices:
+    type: root
+    children:
+      - type: h4
+        children:
+          - type: text
+            text: Performance Considerations
+      - type: ul
+        children:
+          - type: li
+            children:
+              - type: text
+                text: Implement virtual scrolling for tables with 1000+ rows
+          - type: li
+            children:
+              - type: text
+                text: Use server-side pagination and filtering for large datasets
+          - type: li
+            children:
+              - type: text
+                text: Debounce filter inputs to avoid excessive API calls
+      - type: h4
+        children:
+          - type: text
+            text: Mobile Considerations
+      - type: ul
+        children:
+          - type: li
+            children:
+              - type: text
+                text: Consider card view for mobile when tables become too narrow
+          - type: li
+            children:
+              - type: text
+                text: Prioritize most important columns for small screens
+          - type: li
+            children:
+              - type: text
+                text: Use horizontal scrolling with sticky first column if needed
+code:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: The Data Table component provides a comprehensive API for handling complex data display scenarios with minimal setup.
+  installation:
+    command: npm install @eleven/design-system
+    instructions:
+      type: doc
+      children:
+        - type: p
+          children:
+            - text: The Data Table component is included in the main package and requires no additional dependencies.
+  import: 'import { DataTable, type ColumnDef, type SortConfig } from ''@eleven/design-system'';'
+  codeExamples:
+    - title: Advanced Configuration
+      description: Table with custom column renderers and server-side operations
+      language: typescript
+      code: |
+        import { DataTable, type ColumnDef } from '@eleven/design-system';
+        import { Badge } from '@eleven/design-system';
+
+        interface User {
+          id: number;
+          name: string;
+          email: string;
+          role: 'admin' | 'user' | 'guest';
+          status: 'active' | 'inactive';
+          lastLogin: Date;
+        }
+
+        const columns: ColumnDef<User>[] = [
+          {
+            key: 'name',
+            header: 'Name',
+            sortable: true,
+            render: (value, row) => (
+              <div className="font-medium">{value}</div>
+            )
+          },
+          {
+            key: 'role',
+            header: 'Role',
+            filterable: true,
+            render: (value) => (
+              <Badge variant={value === 'admin' ? 'default' : 'secondary'}>
+                {value}
+              </Badge>
+            )
+          },
+          {
+            key: 'status',
+            header: 'Status',
+            render: (value) => (
+              <Badge variant={value === 'active' ? 'success' : 'warning'}>
+                {value}
+              </Badge>
+            )
+          },
+          {
+            key: 'lastLogin',
+            header: 'Last Login',
+            sortable: true,
+            render: (value) => new Date(value).toLocaleDateString()
+          }
+        ];
+
+        export function UserTable() {
+          const [data, setData] = useState<User[]>([]);
+          const [loading, setLoading] = useState(false);
+          const [selected, setSelected] = useState<User[]>([]);
+          
+          const handleSort = async (sort: SortConfig) => {
+            setLoading(true);
+            // Implement server-side sorting
+            const sortedData = await fetchUsers({ sort });
+            setData(sortedData);
+            setLoading(false);
+          };
+          
+          return (
+            <DataTable
+              data={data}
+              columns={columns}
+              selectable
+              pagination={{ pageSize: 25 }}
+              loading={loading}
+              onSelectionChange={setSelected}
+              onSortChange={handleSort}
+            />
+          );
+        }
+    - title: Custom Pagination
+      description: Implementing server-side pagination with custom page sizes
+      language: typescript
+      code: |
+        const paginationConfig = {
+          pageSize: 50,
+          pageSizeOptions: [25, 50, 100],
+          showPageSizeSelector: true,
+          showPageInfo: true
+        };
+
+        <DataTable
+          data={data}
+          columns={columns}
+          pagination={paginationConfig}
+          onPageChange={(page, pageSize) => {
+            // Handle pagination
+            fetchData({ page, pageSize });
+          }}
+        />
+    - title: Responsive Mobile View
+      description: Conditional rendering for mobile-optimized display
+      language: typescript
+      code: |
+        import { useMediaQuery } from '@eleven/design-system/hooks';
+
+        export function ResponsiveTable() {
+          const isMobile = useMediaQuery('(max-width: 768px)');
+          
+          if (isMobile) {
+            return (
+              <div className="space-y-4">
+                {data.map(item => (
+                  <Card key={item.id}>
+                    <CardContent>
+                      <h3>{item.name}</h3>
+                      <p>{item.email}</p>
+                      <Badge>{item.role}</Badge>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            );
+          }
+          
+          return <DataTable data={data} columns={columns} />;
+        }
+  api:
+    content:
+      type: doc
+      children:
+        - type: h4
+          children:
+            - text: ColumnDef Interface
+        - type: pre
+          children:
+            - type: code
+              children:
+                - text: 'interface ColumnDef<T = any> { key: keyof T; header: string; sortable?: boolean; filterable?: boolean; width?: string | number; minWidth?: string | number; render?: (value: any, row: T, index: number) => React.ReactNode; headerRender?: () => React.ReactNode; className?: string; headerClassName?: string; }'
+        - type: h4
+          children:
+            - text: SortConfig Interface
+        - type: pre
+          children:
+            - type: code
+              children:
+                - text: 'interface SortConfig { key: string; direction: ''asc'' | ''desc''; }'
+seo:
+  metaTitle: Data Table Component - Eleven Design System
+  metaDescription: 'Advanced table component for displaying and manipulating large datasets with sorting, filtering, and pagination capabilities.'
+  keywords: 'data table, table, sorting, filtering, pagination, react, component, design system'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Data Table Component
+
+A comprehensive table component for displaying and interacting with structured data, featuring advanced capabilities like sorting, filtering, row selection, and pagination. 

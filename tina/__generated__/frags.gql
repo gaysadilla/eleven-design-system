@@ -1,0 +1,1053 @@
+fragment SectionParts on Section {
+  __typename
+  title
+  slug
+  description
+  order
+  enabled
+  icon
+  hasLandingPage
+  landingPage {
+    __typename
+    overview
+    tabs {
+      __typename
+      title
+      slug
+      content
+    }
+  }
+}
+
+fragment ComponentGroupParts on ComponentGroup {
+  __typename
+  title
+  slug
+  description
+  order
+  enabled
+  icon
+  content
+}
+
+fragment CategoryParts on Category {
+  __typename
+  title
+  slug
+  section {
+    ... on Section {
+      __typename
+      title
+      slug
+      description
+      order
+      enabled
+      icon
+      hasLandingPage
+      landingPage {
+        __typename
+        overview
+        tabs {
+          __typename
+          title
+          slug
+          content
+        }
+      }
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  componentGroup {
+    ... on ComponentGroup {
+      __typename
+      title
+      slug
+      description
+      order
+      enabled
+      icon
+      content
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  description
+  order
+  enabled
+  icon
+  isExpandable
+  hasLandingPage
+  landingContent
+}
+
+fragment PageParts on Page {
+  __typename
+  title
+  slug
+  section {
+    ... on Section {
+      __typename
+      title
+      slug
+      description
+      order
+      enabled
+      icon
+      hasLandingPage
+      landingPage {
+        __typename
+        overview
+        tabs {
+          __typename
+          title
+          slug
+          content
+        }
+      }
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  category {
+    ... on Category {
+      __typename
+      title
+      slug
+      section {
+        ... on Section {
+          __typename
+          title
+          slug
+          description
+          order
+          enabled
+          icon
+          hasLandingPage
+          landingPage {
+            __typename
+            overview
+            tabs {
+              __typename
+              title
+              slug
+              content
+            }
+          }
+        }
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+      }
+      componentGroup {
+        ... on ComponentGroup {
+          __typename
+          title
+          slug
+          description
+          order
+          enabled
+          icon
+          content
+        }
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+      }
+      description
+      order
+      enabled
+      icon
+      isExpandable
+      hasLandingPage
+      landingContent
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  componentGroup {
+    ... on ComponentGroup {
+      __typename
+      title
+      slug
+      description
+      order
+      enabled
+      icon
+      content
+    }
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+  }
+  description
+  status
+  version
+  order
+  enabled
+  cacheRefresh
+  links {
+    __typename
+    figmaUrl
+    storybookUrl
+    githubUrl
+    npmUrl
+  }
+  packageInfo {
+    __typename
+    packageName
+    importPath
+    dependencies
+  }
+  overview {
+    __typename
+    blocks {
+      __typename
+      ... on PageOverviewBlocksRichTextBlock {
+        title
+        content
+      }
+      ... on PageOverviewBlocksFigmaSyncBlock {
+        title
+        description
+        figmaUrl
+        componentName
+        showInstructions
+      }
+      ... on PageOverviewBlocksLiveExampleBlock {
+        title
+        description
+        code
+        language
+        showPreview
+        copyable
+      }
+      ... on PageOverviewBlocksComponentApiBlock {
+        title
+        properties {
+          __typename
+          name
+          type
+          default
+          description
+          required
+        }
+      }
+      ... on PageOverviewBlocksDesignSpecsBlock {
+        title
+        measurements {
+          __typename
+          minHeight
+          padding
+          margin
+          borderRadius
+        }
+        tokens {
+          __typename
+          name
+          value
+          description
+        }
+      }
+      ... on PageOverviewBlocksGuidelinesBlock {
+        title
+        dos {
+          __typename
+          text
+          example
+        }
+        donts {
+          __typename
+          text
+          example
+        }
+      }
+      ... on PageOverviewBlocksCalloutBlock {
+        type
+        title
+        content
+      }
+    }
+  }
+  specs {
+    __typename
+    blocks {
+      __typename
+      ... on PageSpecsBlocksRichTextBlock {
+        title
+        content
+      }
+      ... on PageSpecsBlocksFigmaSyncBlock {
+        title
+        description
+        figmaUrl
+        componentName
+        showInstructions
+      }
+      ... on PageSpecsBlocksLiveExampleBlock {
+        title
+        description
+        code
+        language
+        showPreview
+        copyable
+      }
+      ... on PageSpecsBlocksComponentApiBlock {
+        title
+        properties {
+          __typename
+          name
+          type
+          default
+          description
+          required
+        }
+      }
+      ... on PageSpecsBlocksDesignSpecsBlock {
+        title
+        measurements {
+          __typename
+          minHeight
+          padding
+          margin
+          borderRadius
+        }
+        tokens {
+          __typename
+          name
+          value
+          description
+        }
+      }
+      ... on PageSpecsBlocksGuidelinesBlock {
+        title
+        dos {
+          __typename
+          text
+          example
+        }
+        donts {
+          __typename
+          text
+          example
+        }
+      }
+      ... on PageSpecsBlocksCalloutBlock {
+        type
+        title
+        content
+      }
+    }
+  }
+  guidelines {
+    __typename
+    blocks {
+      __typename
+      ... on PageGuidelinesBlocksRichTextBlock {
+        title
+        content
+      }
+      ... on PageGuidelinesBlocksFigmaSyncBlock {
+        title
+        description
+        figmaUrl
+        componentName
+        showInstructions
+      }
+      ... on PageGuidelinesBlocksLiveExampleBlock {
+        title
+        description
+        code
+        language
+        showPreview
+        copyable
+      }
+      ... on PageGuidelinesBlocksComponentApiBlock {
+        title
+        properties {
+          __typename
+          name
+          type
+          default
+          description
+          required
+        }
+      }
+      ... on PageGuidelinesBlocksDesignSpecsBlock {
+        title
+        measurements {
+          __typename
+          minHeight
+          padding
+          margin
+          borderRadius
+        }
+        tokens {
+          __typename
+          name
+          value
+          description
+        }
+      }
+      ... on PageGuidelinesBlocksGuidelinesBlock {
+        title
+        dos {
+          __typename
+          text
+          example
+        }
+        donts {
+          __typename
+          text
+          example
+        }
+      }
+      ... on PageGuidelinesBlocksCalloutBlock {
+        type
+        title
+        content
+      }
+    }
+  }
+  code {
+    __typename
+    content
+    installation {
+      __typename
+      command
+      instructions
+    }
+    codeExamples {
+      __typename
+      title
+      language
+      code
+      description
+    }
+    api {
+      __typename
+      content
+    }
+  }
+  seo {
+    __typename
+    metaTitle
+    metaDescription
+    keywords
+  }
+  tableOfContents {
+    __typename
+    enabled
+    maxDepth
+    minDepth
+    sticky
+  }
+  body
+}
+
+fragment NavigationParts on Navigation {
+  __typename
+  title
+  header {
+    __typename
+    items {
+      __typename
+      section {
+        ... on Section {
+          __typename
+          title
+          slug
+          description
+          order
+          enabled
+          icon
+          hasLandingPage
+          landingPage {
+            __typename
+            overview
+            tabs {
+              __typename
+              title
+              slug
+              content
+            }
+          }
+        }
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+      }
+      customLabel
+      customUrl
+    }
+  }
+  sidebar {
+    __typename
+    section {
+      ... on Section {
+        __typename
+        title
+        slug
+        description
+        order
+        enabled
+        icon
+        hasLandingPage
+        landingPage {
+          __typename
+          overview
+          tabs {
+            __typename
+            title
+            slug
+            content
+          }
+        }
+      }
+      ... on Document {
+        _sys {
+          filename
+          basename
+          hasReferences
+          breadcrumbs
+          path
+          relativePath
+          extension
+        }
+        id
+      }
+    }
+    categories {
+      __typename
+      category {
+        ... on Category {
+          __typename
+          title
+          slug
+          section {
+            ... on Section {
+              __typename
+              title
+              slug
+              description
+              order
+              enabled
+              icon
+              hasLandingPage
+              landingPage {
+                __typename
+                overview
+                tabs {
+                  __typename
+                  title
+                  slug
+                  content
+                }
+              }
+            }
+            ... on Document {
+              _sys {
+                filename
+                basename
+                hasReferences
+                breadcrumbs
+                path
+                relativePath
+                extension
+              }
+              id
+            }
+          }
+          componentGroup {
+            ... on ComponentGroup {
+              __typename
+              title
+              slug
+              description
+              order
+              enabled
+              icon
+              content
+            }
+            ... on Document {
+              _sys {
+                filename
+                basename
+                hasReferences
+                breadcrumbs
+                path
+                relativePath
+                extension
+              }
+              id
+            }
+          }
+          description
+          order
+          enabled
+          icon
+          isExpandable
+          hasLandingPage
+          landingContent
+        }
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+      }
+      pages {
+        __typename
+        page {
+          ... on Page {
+            __typename
+            title
+            slug
+            section {
+              ... on Section {
+                __typename
+                title
+                slug
+                description
+                order
+                enabled
+                icon
+                hasLandingPage
+                landingPage {
+                  __typename
+                  overview
+                  tabs {
+                    __typename
+                    title
+                    slug
+                    content
+                  }
+                }
+              }
+              ... on Document {
+                _sys {
+                  filename
+                  basename
+                  hasReferences
+                  breadcrumbs
+                  path
+                  relativePath
+                  extension
+                }
+                id
+              }
+            }
+            category {
+              ... on Category {
+                __typename
+                title
+                slug
+                description
+                order
+                enabled
+                icon
+                isExpandable
+                hasLandingPage
+                landingContent
+              }
+              ... on Document {
+                _sys {
+                  filename
+                  basename
+                  hasReferences
+                  breadcrumbs
+                  path
+                  relativePath
+                  extension
+                }
+                id
+              }
+            }
+            componentGroup {
+              ... on ComponentGroup {
+                __typename
+                title
+                slug
+                description
+                order
+                enabled
+                icon
+                content
+              }
+              ... on Document {
+                _sys {
+                  filename
+                  basename
+                  hasReferences
+                  breadcrumbs
+                  path
+                  relativePath
+                  extension
+                }
+                id
+              }
+            }
+            description
+            status
+            version
+            order
+            enabled
+            cacheRefresh
+            links {
+              __typename
+              figmaUrl
+              storybookUrl
+              githubUrl
+              npmUrl
+            }
+            packageInfo {
+              __typename
+              packageName
+              importPath
+              dependencies
+            }
+            overview {
+              __typename
+              blocks {
+                __typename
+                ... on PageOverviewBlocksRichTextBlock {
+                  title
+                  content
+                }
+                ... on PageOverviewBlocksFigmaSyncBlock {
+                  title
+                  description
+                  figmaUrl
+                  componentName
+                  showInstructions
+                }
+                ... on PageOverviewBlocksLiveExampleBlock {
+                  title
+                  description
+                  code
+                  language
+                  showPreview
+                  copyable
+                }
+                ... on PageOverviewBlocksComponentApiBlock {
+                  title
+                  properties {
+                    __typename
+                    name
+                    type
+                    default
+                    description
+                    required
+                  }
+                }
+                ... on PageOverviewBlocksDesignSpecsBlock {
+                  title
+                  measurements {
+                    __typename
+                    minHeight
+                    padding
+                    margin
+                    borderRadius
+                  }
+                  tokens {
+                    __typename
+                    name
+                    value
+                    description
+                  }
+                }
+                ... on PageOverviewBlocksGuidelinesBlock {
+                  title
+                  dos {
+                    __typename
+                    text
+                    example
+                  }
+                  donts {
+                    __typename
+                    text
+                    example
+                  }
+                }
+                ... on PageOverviewBlocksCalloutBlock {
+                  type
+                  title
+                  content
+                }
+              }
+            }
+            specs {
+              __typename
+              blocks {
+                __typename
+                ... on PageSpecsBlocksRichTextBlock {
+                  title
+                  content
+                }
+                ... on PageSpecsBlocksFigmaSyncBlock {
+                  title
+                  description
+                  figmaUrl
+                  componentName
+                  showInstructions
+                }
+                ... on PageSpecsBlocksLiveExampleBlock {
+                  title
+                  description
+                  code
+                  language
+                  showPreview
+                  copyable
+                }
+                ... on PageSpecsBlocksComponentApiBlock {
+                  title
+                  properties {
+                    __typename
+                    name
+                    type
+                    default
+                    description
+                    required
+                  }
+                }
+                ... on PageSpecsBlocksDesignSpecsBlock {
+                  title
+                  measurements {
+                    __typename
+                    minHeight
+                    padding
+                    margin
+                    borderRadius
+                  }
+                  tokens {
+                    __typename
+                    name
+                    value
+                    description
+                  }
+                }
+                ... on PageSpecsBlocksGuidelinesBlock {
+                  title
+                  dos {
+                    __typename
+                    text
+                    example
+                  }
+                  donts {
+                    __typename
+                    text
+                    example
+                  }
+                }
+                ... on PageSpecsBlocksCalloutBlock {
+                  type
+                  title
+                  content
+                }
+              }
+            }
+            guidelines {
+              __typename
+              blocks {
+                __typename
+                ... on PageGuidelinesBlocksRichTextBlock {
+                  title
+                  content
+                }
+                ... on PageGuidelinesBlocksFigmaSyncBlock {
+                  title
+                  description
+                  figmaUrl
+                  componentName
+                  showInstructions
+                }
+                ... on PageGuidelinesBlocksLiveExampleBlock {
+                  title
+                  description
+                  code
+                  language
+                  showPreview
+                  copyable
+                }
+                ... on PageGuidelinesBlocksComponentApiBlock {
+                  title
+                  properties {
+                    __typename
+                    name
+                    type
+                    default
+                    description
+                    required
+                  }
+                }
+                ... on PageGuidelinesBlocksDesignSpecsBlock {
+                  title
+                  measurements {
+                    __typename
+                    minHeight
+                    padding
+                    margin
+                    borderRadius
+                  }
+                  tokens {
+                    __typename
+                    name
+                    value
+                    description
+                  }
+                }
+                ... on PageGuidelinesBlocksGuidelinesBlock {
+                  title
+                  dos {
+                    __typename
+                    text
+                    example
+                  }
+                  donts {
+                    __typename
+                    text
+                    example
+                  }
+                }
+                ... on PageGuidelinesBlocksCalloutBlock {
+                  type
+                  title
+                  content
+                }
+              }
+            }
+            code {
+              __typename
+              content
+              installation {
+                __typename
+                command
+                instructions
+              }
+              codeExamples {
+                __typename
+                title
+                language
+                code
+                description
+              }
+              api {
+                __typename
+                content
+              }
+            }
+            seo {
+              __typename
+              metaTitle
+              metaDescription
+              keywords
+            }
+            tableOfContents {
+              __typename
+              enabled
+              maxDepth
+              minDepth
+              sticky
+            }
+            body
+          }
+          ... on Document {
+            _sys {
+              filename
+              basename
+              hasReferences
+              breadcrumbs
+              path
+              relativePath
+              extension
+            }
+            id
+          }
+        }
+      }
+    }
+  }
+}

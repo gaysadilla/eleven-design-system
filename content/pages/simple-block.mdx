@@ -1,0 +1,68 @@
+---
+title: Simple Block
+slug: simple-block
+section: content/sections/components.json
+category: content/categories/blocks.json
+componentGroup: content/component-groups/components.json
+description: A basic content container for organizing information
+status: stable
+version: 1.0.0
+order: 1
+enabled: true
+overview:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Simple blocks are the most basic content containers used to
+              organize and structure information on a page. They provide
+              consistent padding, spacing, and visual hierarchy.
+      - type: h3
+        children:
+          - text: Use Cases
+      - type: ul
+        children:
+          - type: li
+            children:
+              - text: Basic content sections
+          - type: li
+            children:
+              - text: Text and media groupings
+          - type: li
+            children:
+              - text: Layout building blocks
+specs:
+  properties:
+    - name: padding
+      type: '''none'' | ''sm'' | ''md'' | ''lg'''
+      default: md
+      description: Internal padding size
+      required: false
+    - name: background
+      type: '''none'' | ''subtle'' | ''elevated'''
+      default: none
+      description: Background treatment
+      required: false
+guidelines:
+  dos:
+    - text: Use for logical content groupings
+    - text: Maintain consistent spacing
+  donts:
+    - text: Don't nest too deeply
+    - text: Don't use when a more specific component exists
+seo:
+  metaTitle: Simple Block - Eleven Design System
+  metaDescription: A basic content container component for organizing information.
+  keywords: 'block, container, layout, content'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Simple Block
+
+Basic content container for organizing information. 

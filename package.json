@@ -1,0 +1,51 @@
+{
+  "name": "eleven",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:full": "concurrently \"npm run dev\" \"npm run tina:dev\" --names \"NEXT,TINA\" --prefix-colors \"blue,green\"",
+    "dev:safe": "npm run dev:cleanup && npm run dev:full",
+    "dev:cleanup": "pkill -f 'next dev' || true && pkill -f tinacms || true && sleep 2",
+    "dev:status": "echo '=== Development Server Status ===' && lsof -i :3000 -i :4001 -i :9001 || echo 'No servers running'",
+    "dev:tina": "tinacms dev -c \"next dev\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "tina:dev": "tinacms dev --datalayer-port 9001",
+    "tina:build": "tinacms build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-slot": "^1.2.3",
+    "autoprefixer": "^10.4.21",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^0.469.0",
+    "next": "15.1.5",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss-animate": "^1.0.7",
+    "tinacms": "^2.7.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tinacms/cli": "^1.6.12",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.5",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

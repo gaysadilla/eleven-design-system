@@ -1,0 +1,85 @@
+{
+  "title": "Foundations",
+  "slug": "foundations",
+  "description": "Core design principles, tokens, and system fundamentals that guide the design system",
+  "order": 1,
+  "enabled": true,
+  "icon": "palette",
+  "hasLandingPage": true,
+  "landingPage": {
+    "overview": {
+      "type": "root",
+      "children": [
+        {
+          "type": "h2",
+          "children": [
+            {
+              "type": "text",
+              "text": "Design Foundations"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "type": "text",
+              "text": "The fundamental building blocks of our design system. These foundations establish the visual language, principles, and tokens that ensure consistency across all components and experiences."
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "children": [
+            {
+              "type": "text",
+              "text": "What's Included"
+            }
+          ]
+        },
+        {
+          "type": "ul",
+          "children": [
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Color System - Primary palette, semantic colors, and accessibility guidelines"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Typography - Font families, scales, and text hierarchy"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Spacing & Layout - Grid systems, spacing tokens, and layout principles"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Iconography - Icon library and usage guidelines"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "tabs": []
+  }
+} 

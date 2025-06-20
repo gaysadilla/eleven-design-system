@@ -1,0 +1,185 @@
+---
+title: Accordion
+slug: accordion
+section: content/sections/components.json
+componentGroup: content/component-groups/components.json
+description: Vertically stacked set of interactive headings that reveal content sections
+status: stable
+version: 1.0.0
+order: 11
+enabled: true
+links:
+  figmaUrl: ''
+  storybookUrl: ''
+  githubUrl: ''
+  npmUrl: ''
+packageInfo:
+  packageName: '@eleven/accordion'
+  importPath: 'import { Accordion } from ''@eleven/accordion'''
+  dependencies: ''
+overview:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              An accordion is a vertically stacked set of interactive headings
+              that each reveal a section of content. It's useful for organizing
+              content in a way that prioritizes certain information while
+              keeping other content available but hidden.
+      - type: h3
+        children:
+          - text: When to use
+      - type: ul
+        children:
+          - type: li
+            children:
+              - text: When you have long sections of content that can be categorized
+          - type: li
+            children:
+              - text: To help users scan and find specific information quickly
+          - type: li
+            children:
+              - text: >-
+                  When space is limited and you need to present multiple content
+                  sections
+  examples:
+    - title: Basic Accordion
+      description: A simple accordion with multiple sections
+      code: |
+        <Accordion>
+          <AccordionItem title="Section 1">
+            Content for section 1
+          </AccordionItem>
+          <AccordionItem title="Section 2">
+            Content for section 2
+          </AccordionItem>
+        </Accordion>
+      live: true
+specs:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Technical specifications and properties for the Accordion
+              component.
+  properties:
+    - name: multiple
+      type: boolean
+      default: 'false'
+      description: Allow multiple sections to be expanded simultaneously
+      required: false
+    - name: collapsible
+      type: boolean
+      default: 'true'
+      description: Allow sections to be collapsed after being expanded
+      required: false
+    - name: defaultValue
+      type: string
+      default: ''
+      description: The default expanded section
+      required: false
+  measurements:
+    minHeight: 40px
+    padding: 16px
+    margin: '0'
+    borderRadius: 8px
+guidelines:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Follow these guidelines to ensure proper usage of the Accordion
+              component.
+  dos:
+    - text: 'Use clear, descriptive headings'
+      example: 'Financial Information, Contact Details'
+    - text: Keep content sections focused and organized
+      example: ''
+    - text: Consider the logical flow of information
+      example: ''
+  donts:
+    - text: Don't use for simple show/hide scenarios
+      example: Use a button or toggle instead
+    - text: Don't nest accordions within accordions
+      example: This creates confusing navigation
+  accessibility:
+    content:
+      type: doc
+      children:
+        - type: p
+          children:
+            - text: >-
+                Accordion components must be fully accessible via keyboard and
+                screen readers.
+    requirements:
+      - requirement: ARIA labels and states
+        level: AA
+      - requirement: Keyboard navigation support
+        level: AA
+      - requirement: Focus indicators
+        level: AA
+code:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Code examples and implementation details for the Accordion
+              component.
+  installation:
+    command: npm install @eleven/accordion
+    instructions:
+      type: doc
+      children:
+        - type: p
+          children:
+            - text: Install the accordion package and import the component.
+  codeExamples:
+    - title: Basic Usage
+      language: tsx
+      description: Simple accordion implementation
+      code: |
+        import { Accordion, AccordionItem } from '@eleven/accordion';
+
+        export function BasicAccordion() {
+          return (
+            <Accordion>
+              <AccordionItem title="Overview">
+                <p>Component overview content here.</p>
+              </AccordionItem>
+              <AccordionItem title="Details">
+                <p>Detailed information content here.</p>
+              </AccordionItem>
+            </Accordion>
+          );
+        }
+  api:
+    content:
+      type: doc
+      children:
+        - type: p
+          children:
+            - text: Complete API reference for all accordion-related components.
+seo:
+  metaTitle: Accordion Component - Eleven Design System
+  metaDescription: >-
+    Vertically stacked interactive headings that reveal content sections. Part
+    of the Eleven Design System.
+  keywords: 'accordion, collapse, expand, content, ui component'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Accordion Component
+
+The main content body will be rendered here by TinaCMS. 

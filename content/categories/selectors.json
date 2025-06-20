@@ -1,0 +1,12 @@
+{
+  "title": "Selectors",
+  "slug": "selectors",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json", 
+  "description": "Selection input components and controls",
+  "order": 7,
+  "enabled": true,
+  "icon": "check-square",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

@@ -1,0 +1,12 @@
+{
+  "title": "Actions",
+  "slug": "actions",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Interactive elements that enable users to trigger operations or navigate",
+  "order": 1,
+  "enabled": true,
+  "icon": "mouse-pointer",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

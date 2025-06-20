@@ -1,0 +1,90 @@
+---
+title: Alert
+slug: alert
+section: content/sections/components.json
+componentGroup: content/component-groups/components.json
+description: Display important messages and feedback to users
+status: stable
+version: 1.2.0
+order: 12
+enabled: true
+overview:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Alerts provide important messages and feedback to users. They come
+              in different variants to communicate different types of
+              information - success, warning, error, and informational messages.
+      - type: h3
+        children:
+          - text: Variants
+      - type: ul
+        children:
+          - type: li
+            children:
+              - text: Success - Confirm successful actions
+          - type: li
+            children:
+              - text: Warning - Alert users to potential issues
+          - type: li
+            children:
+              - text: Error - Indicate problems that need attention
+          - type: li
+            children:
+              - text: Info - Provide helpful information
+  examples:
+    - title: Basic Alert
+      description: Simple alert with message
+      code: |
+        <Alert variant="info">
+          This is an informational alert
+        </Alert>
+      live: true
+specs:
+  properties:
+    - name: variant
+      type: '''success'' | ''warning'' | ''error'' | ''info'''
+      default: info
+      description: Visual style and semantic meaning
+      required: false
+    - name: dismissible
+      type: boolean
+      default: 'false'
+      description: Allow users to dismiss the alert
+      required: false
+guidelines:
+  dos:
+    - text: Use appropriate variants for different message types
+    - text: Keep messages concise and actionable
+    - text: Position alerts where users expect to see them
+  donts:
+    - text: Don't overuse alerts - they lose impact
+    - text: Don't use alerts for non-urgent information
+code:
+  codeExamples:
+    - title: Alert Variants
+      language: tsx
+      code: |
+        <Alert variant="success">Operation completed successfully</Alert>
+        <Alert variant="warning">Please review your input</Alert>
+        <Alert variant="error">Something went wrong</Alert>
+        <Alert variant="info">Additional information available</Alert>
+seo:
+  metaTitle: Alert Component - Eleven Design System
+  metaDescription: >-
+    Display important messages and feedback to users with different variants for
+    success, warning, error, and info states.
+  keywords: 'alert, notification, message, feedback, ui component'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Alert Component
+
+Alerts provide contextual feedback messages for typical user actions. 

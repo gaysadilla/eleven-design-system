@@ -1,0 +1,12 @@
+{
+  "title": "Progress",
+  "slug": "progress", 
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Progress indicators and status feedback components",
+  "order": 5,
+  "enabled": true,
+  "icon": "trending-up",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

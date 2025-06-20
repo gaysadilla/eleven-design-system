@@ -1,0 +1,85 @@
+{
+  "title": "Development",
+  "slug": "development",
+  "description": "Developer resources, implementation guides, and technical documentation for using the design system",
+  "order": 4,
+  "enabled": true,
+  "icon": "code",
+  "hasLandingPage": true,
+  "landingPage": {
+    "overview": {
+      "type": "root",
+      "children": [
+        {
+          "type": "h2",
+          "children": [
+            {
+              "type": "text",
+              "text": "Development Resources"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "type": "text",
+              "text": "Technical documentation, implementation guides, and developer tools for integrating the design system into your projects."
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "children": [
+            {
+              "type": "text",
+              "text": "Developer Tools"
+            }
+          ]
+        },
+        {
+          "type": "ul",
+          "children": [
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Installation & Setup - Getting started with the design system"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "API Documentation - Component props and methods"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Migration Guides - Upgrading between versions"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Contributing - How to contribute to the design system"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "tabs": []
+  }
+} 

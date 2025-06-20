@@ -1,0 +1,85 @@
+{
+  "title": "Patterns",
+  "slug": "patterns",
+  "description": "Reusable design patterns and common interaction models for complex user experiences",
+  "order": 3,
+  "enabled": true,
+  "icon": "grid-3x3",
+  "hasLandingPage": true,
+  "landingPage": {
+    "overview": {
+      "type": "root",
+      "children": [
+        {
+          "type": "h2",
+          "children": [
+            {
+              "type": "text",
+              "text": "Design Patterns"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "type": "text",
+              "text": "Common design patterns and interaction models that solve recurring user experience challenges. These patterns combine multiple components to create cohesive user flows."
+            }
+          ]
+        },
+        {
+          "type": "h3",
+          "children": [
+            {
+              "type": "text",
+              "text": "Pattern Categories"
+            }
+          ]
+        },
+        {
+          "type": "ul",
+          "children": [
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Navigation Patterns - Header, sidebar, and menu structures"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Form Patterns - Complex form layouts and validation"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Data Display - Tables, lists, and information hierarchy"
+                }
+              ]
+            },
+            {
+              "type": "li",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Feedback Patterns - Loading states, errors, and success flows"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "tabs": []
+  }
+} 

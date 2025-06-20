@@ -1,0 +1,12 @@
+{
+  "title": "Cards",
+  "slug": "cards",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Information display containers and content cards",
+  "order": 3,
+  "enabled": true,
+  "icon": "square",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

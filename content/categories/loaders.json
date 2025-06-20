@@ -1,0 +1,12 @@
+{
+  "title": "Loaders",
+  "slug": "loaders",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Loading indicators and progress feedback components",
+  "order": 4,
+  "enabled": true,
+  "icon": "loader",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

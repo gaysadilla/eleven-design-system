@@ -1,0 +1,78 @@
+---
+title: Toast
+slug: toast
+section: content/sections/components.json
+componentGroup: content/component-groups/components.json
+description: Temporary notification messages that appear and disappear automatically
+status: stable
+version: 1.3.0
+order: 16
+enabled: true
+overview:
+  content:
+    type: doc
+    children:
+      - type: p
+        children:
+          - text: >-
+              Toast notifications provide brief feedback about an operation
+              through a message that appears temporarily and then disappears
+              without interrupting the user's workflow.
+      - type: h3
+        children:
+          - text: Toast Types
+      - type: ul
+        children:
+          - type: li
+            children:
+              - text: Success - Confirm successful operations
+          - type: li
+            children:
+              - text: Error - Alert users to problems
+          - type: li
+            children:
+              - text: Warning - Caution about potential issues
+          - type: li
+            children:
+              - text: Info - Provide helpful information
+specs:
+  properties:
+    - name: variant
+      type: '''success'' | ''error'' | ''warning'' | ''info'''
+      default: info
+      description: Visual style and semantic meaning
+      required: false
+    - name: duration
+      type: number
+      default: '5000'
+      description: Auto-dismiss duration in milliseconds
+      required: false
+    - name: dismissible
+      type: boolean
+      default: 'true'
+      description: Show dismiss button
+      required: false
+guidelines:
+  dos:
+    - text: Keep messages brief and actionable
+    - text: Use appropriate variants for different message types
+    - text: Position consistently (usually top-right or bottom)
+  donts:
+    - text: Don't use for critical errors that need immediate attention
+    - text: Don't stack too many toasts simultaneously
+seo:
+  metaTitle: Toast Component - Eleven Design System
+  metaDescription: >-
+    Temporary notification messages that provide feedback about operations with
+    automatic dismissal.
+  keywords: 'toast, notification, message, feedback, temporary'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Toast Component
+
+Brief, temporary feedback messages for user operations. 

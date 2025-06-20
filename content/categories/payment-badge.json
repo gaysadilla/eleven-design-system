@@ -1,0 +1,12 @@
+{
+  "title": "Payment Badge",
+  "slug": "payment-badge",
+  "section": "content/sections/components.json", 
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Payment-related badge and indicator components",
+  "order": 6,
+  "enabled": true,
+  "icon": "credit-card",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

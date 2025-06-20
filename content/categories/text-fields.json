@@ -1,0 +1,12 @@
+{
+  "title": "Text Fields",
+  "slug": "text-fields",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Text input and form field components",
+  "order": 9,
+  "enabled": true,
+  "icon": "type",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

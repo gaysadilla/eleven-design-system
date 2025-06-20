@@ -1,0 +1,55 @@
+---
+title: Avatar
+slug: avatar
+section: content/sections/components.json
+componentGroup: content/component-groups/deprecated-components.json
+description: Profile picture or user representation (DEPRECATED)
+status: deprecated
+version: 0.8.0
+order: 13
+enabled: true
+overview:
+  content:
+    type: doc
+    children:
+      - type: div
+        children:
+          - type: p
+            children:
+              - text: '⚠️ DEPRECATED: This component is deprecated and will be removed in v2.0. Use the new Profile component instead.'
+            className: text-yellow-800 font-semibold
+        className: p-4 bg-yellow-50 border border-yellow-200 rounded-lg mb-4
+      - type: p
+        children:
+          - text: The Avatar component was used to display user profile pictures and initials. It has been replaced by the more flexible Profile component.
+      - type: h3
+        children:
+          - text: Migration Guide
+      - type: p
+        children:
+          - text: 'Replace Avatar with the new Profile component:'
+      - type: pre
+        children:
+          - type: code
+            children:
+              - text: // Old (deprecated) <Avatar src="/user.jpg" alt="John Doe" /> // New (recommended) <Profile src="/user.jpg" alt="John Doe" />
+guidelines:
+  dos:
+    - text: Migrate to the new Profile component
+  donts:
+    - text: Don't use Avatar in new projects
+    - text: Don't rely on Avatar for production applications
+seo:
+  metaTitle: Avatar Component (Deprecated) - Eleven Design System
+  metaDescription: Deprecated Avatar component. Use the new Profile component instead.
+  keywords: 'avatar, profile, user, deprecated, migration'
+tableOfContents:
+  enabled: true
+  maxDepth: 4
+  minDepth: 2
+  sticky: true
+---
+
+# Avatar Component (Deprecated)
+
+This component has been deprecated. Please use the Profile component instead. 

@@ -1,0 +1,41 @@
+{
+  "title": "Main Navigation",
+  "header": {
+    "items": [
+      {
+        "section": "content/sections/foundations.json"
+      },
+      {
+        "section": "content/sections/components.json"
+      },
+      {
+        "section": "content/sections/patterns.json"
+      },
+      {
+        "section": "content/sections/development.json"
+      }
+    ]
+  },
+  "sidebar": [
+    {
+      "section": "content/sections/foundations.json",
+      "showCategories": false,
+      "collapsible": false
+    },
+    {
+      "section": "content/sections/components.json", 
+      "showCategories": true,
+      "collapsible": true
+    },
+    {
+      "section": "content/sections/patterns.json",
+      "showCategories": false,
+      "collapsible": false
+    },
+    {
+      "section": "content/sections/development.json",
+      "showCategories": false,
+      "collapsible": false
+    }
+  ]
+} 

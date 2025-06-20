@@ -1,0 +1,22 @@
+{
+  "title": "Components",
+  "slug": "components",
+  "description": "Core UI components for building user interfaces",
+  "order": 1,
+  "enabled": true,
+  "icon": "layout",
+  "content": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text", 
+            "text": "Core UI components that form the foundation of your design system. These are production-ready, fully tested components that can be composed together to build complex user interfaces."
+          }
+        ]
+      }
+    ]
+  }
+} 

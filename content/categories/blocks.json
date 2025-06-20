@@ -1,0 +1,12 @@
+{
+  "title": "Blocks",
+  "slug": "blocks",
+  "section": "content/sections/components.json",
+  "componentGroup": "content/component-groups/components.json",
+  "description": "Layout and content container components",
+  "order": 2,
+  "enabled": true,
+  "icon": "box",
+  "isExpandable": true,
+  "hasLandingPage": false
+} 

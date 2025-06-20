@@ -1,0 +1,222 @@
+{
+  "title": "Components",
+  "slug": "components",
+  "description": "Reusable UI components and interactive elements",
+  "order": 2,
+  "enabled": true,
+  "icon": "layout",
+  "hasLandingPage": true,
+  "landingPage": {
+    "overview": {
+      "type": "root",
+      "children": [
+        {
+          "type": "h2",
+          "children": [
+            {
+              "type": "text",
+              "text": "Component Library"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "children": [
+            {
+              "type": "text",
+              "text": "A comprehensive collection of reusable UI components designed to help you build consistent, accessible, and beautiful user interfaces. Our components are organized into logical categories and follow established design patterns."
+            }
+          ]
+        }
+      ]
+    },
+    "tabs": [
+      {
+        "title": "Catalog",
+        "slug": "catalog",
+        "content": {
+          "type": "root",
+          "children": [
+            {
+              "type": "h3",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Component Catalog"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Browse our complete collection of components organized by category. Each component includes detailed documentation, code examples, and design guidelines."
+                }
+              ]
+            },
+            {
+              "type": "h4",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Component Categories"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "children": [
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Actions - Buttons, links, and interactive elements"
+                    }
+                  ]
+                },
+                {
+                  "type": "li", 
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Blocks - Layout and content containers"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Cards - Information display containers"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Form Elements - Input fields, selectors, and form controls"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "title": "Roadmap",
+        "slug": "roadmap",
+        "content": {
+          "type": "root",
+          "children": [
+            {
+              "type": "h3",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Component Roadmap"
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Our planned component development timeline and upcoming features."
+                }
+              ]
+            },
+            {
+              "type": "h4",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Current Quarter"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "children": [
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Enhanced accessibility features across all components"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Dark mode support completion"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "New data visualization components"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "h4",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Future Releases"
+                }
+              ]
+            },
+            {
+              "type": "ul",
+              "children": [
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Advanced animation system"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Mobile-specific components"
+                    }
+                  ]
+                },
+                {
+                  "type": "li",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Integration with design tokens"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+} 

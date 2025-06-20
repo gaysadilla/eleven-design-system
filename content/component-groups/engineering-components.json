@@ -1,0 +1,22 @@
+{
+  "title": "Engineering Components",
+  "slug": "engineering-components",
+  "description": "Developer-focused components and utilities for technical use cases",
+  "order": 2,
+  "enabled": true,  
+  "icon": "code",
+  "content": {
+    "type": "root",
+    "children": [
+      {
+        "type": "p",
+        "children": [
+          {
+            "type": "text",
+            "text": "Engineering-focused components that provide technical functionality and developer utilities. These components are designed for specific development workflows and advanced use cases."
+          }
+        ]
+      }
+    ]
+  }
+} 
