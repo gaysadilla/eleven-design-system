@@ -3,7 +3,7 @@ import { richTextTemplates } from "./templates";
 import { contentBlocks } from "./templates/blocks";
 import CacheRefreshButton from "../src/components/tina/CacheRefreshButton";
 
-
+// Schema update: Fri Jun 20 2025 13:30
 
 const branch = process.env.NEXT_PUBLIC_TINA_BRANCH || 
               process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || 
