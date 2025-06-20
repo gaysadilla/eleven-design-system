@@ -189,28 +189,22 @@ function renderRichContent(content: any): React.ReactNode {
 
 function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
   // Debug logging to understand data structure
-  console.log('🔍 OverviewTab Debug:', {
-    data,
-    tinaProps,
-    tinaData,
-    isEditing,
-    'tinaProps?.data': tinaProps?.data,
-    'tinaProps?.data?.page': tinaProps?.data?.page,
-    'data?.overview': data?.overview,
-    'data?.overview?.blocks': data?.overview?.blocks
-  });
+  console.log('🔍 OverviewTab Debug - data:', data);
+  console.log('🔍 OverviewTab Debug - tinaProps:', tinaProps);
+  console.log('🔍 OverviewTab Debug - tinaData:', tinaData);
+  console.log('🔍 OverviewTab Debug - isEditing:', isEditing);
+  console.log('🔍 OverviewTab Debug - data?.overview:', data?.overview);
+  console.log('🔍 OverviewTab Debug - data?.overview?.blocks:', data?.overview?.blocks);
 
   // Use enhanced data from TinaCMS if available
   const blockData = tinaProps?.data?.page || tinaProps?.data || data;
   // Use TinaCMS data for tinaField calls if available
   const tinaDataForFields = tinaProps?.data?.page || tinaProps?.data || data;
   
-  console.log('🔍 BlockData Debug:', {
-    blockData,
-    'blockData?.overview': blockData?.overview,
-    'blockData?.overview?.blocks': blockData?.overview?.blocks,
-    'Array.isArray(blockData?.overview?.blocks)': Array.isArray(blockData?.overview?.blocks)
-  });
+  console.log('🔍 BlockData Debug - blockData:', blockData);
+  console.log('🔍 BlockData Debug - blockData?.overview:', blockData?.overview);
+  console.log('🔍 BlockData Debug - blockData?.overview?.blocks:', blockData?.overview?.blocks);
+  console.log('🔍 BlockData Debug - Array.isArray(blockData?.overview?.blocks):', Array.isArray(blockData?.overview?.blocks));
   
   // Ensure blocks is always an array to prevent length errors
   const safeBlocks = Array.isArray(blockData?.overview?.blocks) ? blockData.overview.blocks : [];
@@ -673,11 +667,24 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
   const [activeTab, setActiveTab] = useState('overview');
   
   // Use TinaCMS hook directly when in editing mode for proper metadata
-  const tinaData = isEditing && query && variables ? useTina({
-    query,
-    variables,
-    data: { page: data }
-  }) : null;
+  const tinaData = React.useMemo(() => {
+    try {
+      if (isEditing && query && variables && data) {
+        console.log('🔍 ComponentTabs useTina - About to call useTina with:', { query: !!query, variables, data });
+        const result = useTina({
+          query,
+          variables,
+          data: { page: data }
+        });
+        console.log('🔍 ComponentTabs useTina - Result:', result);
+        return result;
+      }
+      return null;
+    } catch (error) {
+      console.error('🔍 ComponentTabs useTina - Error:', error);
+      return null;
+    }
+  }, [isEditing, query, variables, data]);
   
   // Use the enhanced data from TinaCMS or fallback to original data
   const enhancedData = tinaData?.data?.page || tinaProps?.data || data;

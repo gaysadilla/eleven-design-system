@@ -34,17 +34,15 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
         relativePath: `${variation}.mdx`,
       });
       
-      console.log('🔍 TinaCMS Query Result:', {
-        variation,
-        success: !!tinaData,
-        hasData: !!tinaData?.data,
-        hasPage: !!tinaData?.data?.page,
-        tinaData,
-        'tinaData?.data': tinaData?.data,
-        'tinaData?.data?.page': tinaData?.data?.page,
-        'tinaData?.data?.page?.overview': tinaData?.data?.page?.overview,
-        'tinaData?.data?.page?.overview?.blocks': tinaData?.data?.page?.overview?.blocks
-      });
+      console.log('🔍 TinaCMS Query Result - variation:', variation);
+      console.log('🔍 TinaCMS Query Result - success:', !!tinaData);
+      console.log('🔍 TinaCMS Query Result - hasData:', !!tinaData?.data);
+      console.log('🔍 TinaCMS Query Result - hasPage:', !!tinaData?.data?.page);
+      console.log('🔍 TinaCMS Query Result - tinaData:', tinaData);
+      console.log('🔍 TinaCMS Query Result - tinaData?.data:', tinaData?.data);
+      console.log('🔍 TinaCMS Query Result - tinaData?.data?.page:', tinaData?.data?.page);
+      console.log('🔍 TinaCMS Query Result - tinaData?.data?.page?.overview:', tinaData?.data?.page?.overview);
+      console.log('🔍 TinaCMS Query Result - tinaData?.data?.page?.overview?.blocks:', tinaData?.data?.page?.overview?.blocks);
       
       if (tinaData?.data?.page) {
         console.log('✅ TinaCMS query successful, returning data');

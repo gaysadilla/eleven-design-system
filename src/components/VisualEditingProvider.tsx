@@ -19,13 +19,11 @@ export default function VisualEditingProvider({
   // Use TinaCMS for visual editing if we have the required props
   const tinaProps = React.useMemo(() => {
     try {
-      console.log('🔍 VisualEditingProvider useTina input:', {
-        query: !!query,
-        variables,
-        data,
-        'data?.page': data?.page,
-        'data?.page?.overview': data?.page?.overview
-      });
+      console.log('🔍 VisualEditingProvider useTina input - query exists:', !!query);
+      console.log('🔍 VisualEditingProvider useTina input - variables:', variables);
+      console.log('🔍 VisualEditingProvider useTina input - data:', data);
+      console.log('🔍 VisualEditingProvider useTina input - data?.page:', data?.page);
+      console.log('🔍 VisualEditingProvider useTina input - data?.page?.overview:', data?.page?.overview);
 
       const result = query && data ? useTina({
         query,
@@ -33,12 +31,10 @@ export default function VisualEditingProvider({
         data,
       }) : { data };
 
-      console.log('🔍 VisualEditingProvider useTina result:', {
-        result,
-        'result?.data': result?.data,
-        'result?.data?.page': result?.data?.page,
-        'result?.data?.page?.overview': result?.data?.page?.overview
-      });
+      console.log('🔍 VisualEditingProvider useTina result - result:', result);
+      console.log('🔍 VisualEditingProvider useTina result - result?.data:', result?.data);
+      console.log('🔍 VisualEditingProvider useTina result - result?.data?.page:', result?.data?.page);
+      console.log('🔍 VisualEditingProvider useTina result - result?.data?.page?.overview:', result?.data?.page?.overview);
 
       return result;
     } catch (error) {
