@@ -507,4 +507,4 @@ TINA_TOKEN=your_token
 
 ---
 
-**Built with ❤️ using Next.js, TinaCMS, and the power of semantic theming** 
+**Built with ❤️ using Next.js, TinaCMS, and the power of semantic theming** # TinaCloud Integration Complete
