@@ -276,7 +276,7 @@ export default defineConfig({
         ui: {
           router: ({ document }) => {
             const slug = (document as any).slug || document._sys.filename.replace(/\.mdx?$/, '');
-            return `/components/${slug}`;
+            return `/components/${slug.toLowerCase()}`;
           },
         },
 
