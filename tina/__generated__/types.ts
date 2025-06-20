@@ -3342,15 +3342,26 @@ const generateRequester = (
 /**
  * @experimental this class can be used but may change in the future
  **/
-export const ExperimentalGetTinaClient = () =>
-  getSdk(
+export const ExperimentalGetTinaClient = () => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const clientId = process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "";
+  const token = process.env.TINA_TOKEN || "";
+  const branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || "main";
+
+  const apiUrl = isProduction && clientId 
+    ? `https://content.tinajs.io/content/${clientId}/github/${branch}`
+    : "http://localhost:4001/graphql";
+
+  return getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: apiUrl,
+        token,
         queries,
       })
     )
-  )
+  );
+}
 
 export const queries = (
   client: TinaClient,
