@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import TinaWrapper from './TinaWrapper';
 
+// Force dynamic rendering to avoid build-time errors
+export const dynamic = 'force-dynamic';
+
 interface ComponentPageData {
   frontmatter: any;
   tinaData?: any;
@@ -34,6 +37,7 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
         };
       }
     } catch (error) {
+      console.error(`Failed to fetch ${variation}.mdx:`, error);
       continue;
     }
   }
@@ -61,17 +65,48 @@ export async function generateStaticParams() {
 export default async function ComponentPage({ 
   params 
 }: { 
-  params: Promise<{ slug: string }> 
+  params: { slug: string } 
 }) {
-  const { slug } = await params;
-  const data = await getComponentData(slug);
-  
-  if (!data) {
+  try {
+    // Handle both sync and async params for Next.js compatibility
+    const resolvedParams = await Promise.resolve(params);
+    const slug = resolvedParams.slug;
+    
+    console.log('Fetching component data for slug:', slug);
+    const data = await getComponentData(slug);
+    
+    if (!data) {
+      return (
+        <div className="container mx-auto py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-foreground mb-4">Component Not Found</h1>
+            <p className="text-muted-foreground mb-6">The component "{slug}" could not be found.</p>
+            <Link href="/components">
+              <Button>Back to Components</Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <ErrorBoundary>
+        <TinaWrapper 
+          query={data.tinaData.query}
+          variables={data.tinaData.variables}
+          data={data.tinaData.data}
+        >
+          {(tinaData) => <ComponentTabs data={tinaData} />}
+        </TinaWrapper>
+      </ErrorBoundary>
+    );
+  } catch (error) {
+    console.error('Error in ComponentPage:', error);
     return (
       <div className="container mx-auto py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">Component Not Found</h1>
-          <p className="text-muted-foreground mb-6">The component "{slug}" could not be found.</p>
+          <h1 className="text-2xl font-bold text-foreground mb-4">Error Loading Component</h1>
+          <p className="text-muted-foreground mb-6">An error occurred while loading this component.</p>
           <Link href="/components">
             <Button>Back to Components</Button>
           </Link>
@@ -79,16 +114,4 @@ export default async function ComponentPage({
       </div>
     );
   }
-
-  return (
-    <ErrorBoundary>
-      <TinaWrapper 
-        query={data.tinaData.query}
-        variables={data.tinaData.variables}
-        data={data.tinaData.data}
-      >
-        {(tinaData) => <ComponentTabs data={tinaData} />}
-      </TinaWrapper>
-    </ErrorBoundary>
-  );
 } 
