@@ -28,6 +28,17 @@ export default defineConfig({
     },
   },
 
+  // Enable preview and editing functionality
+  ui: {
+    previewUrl: ({ branch }) => {
+      return {
+        url: process.env.NODE_ENV === 'development' 
+          ? 'http://localhost:3000'
+          : 'https://eleven-design-system.vercel.app'
+      };
+    },
+  },
+
 
 
 
@@ -259,6 +270,12 @@ export default defineConfig({
         label: "Documentation Pages",
         path: "content/pages",
         format: "mdx",
+        ui: {
+          router: ({ document }) => {
+            const slug = (document as any).slug || document._sys.filename.replace(/\.mdx?$/, '');
+            return `/components/${slug}`;
+          },
+        },
 
         defaultItem: () => {
           return {
