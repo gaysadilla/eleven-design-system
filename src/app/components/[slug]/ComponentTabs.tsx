@@ -188,10 +188,29 @@ function renderRichContent(content: any): React.ReactNode {
 }
 
 function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
+  // Debug logging to understand data structure
+  console.log('🔍 OverviewTab Debug:', {
+    data,
+    tinaProps,
+    tinaData,
+    isEditing,
+    'tinaProps?.data': tinaProps?.data,
+    'tinaProps?.data?.page': tinaProps?.data?.page,
+    'data?.overview': data?.overview,
+    'data?.overview?.blocks': data?.overview?.blocks
+  });
+
   // Use enhanced data from TinaCMS if available
   const blockData = tinaProps?.data?.page || tinaProps?.data || data;
   // Use TinaCMS data for tinaField calls if available
   const tinaDataForFields = tinaProps?.data?.page || tinaProps?.data || data;
+  
+  console.log('🔍 BlockData Debug:', {
+    blockData,
+    'blockData?.overview': blockData?.overview,
+    'blockData?.overview?.blocks': blockData?.overview?.blocks,
+    'Array.isArray(blockData?.overview?.blocks)': Array.isArray(blockData?.overview?.blocks)
+  });
   
   // Ensure blocks is always an array to prevent length errors
   const safeBlocks = Array.isArray(blockData?.overview?.blocks) ? blockData.overview.blocks : [];

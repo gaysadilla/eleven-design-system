@@ -32,6 +32,15 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
         relativePath: `${variation}.mdx`,
       });
       
+      console.log('🔍 TinaCMS Query Result:', {
+        variation,
+        tinaData,
+        'tinaData?.data': tinaData?.data,
+        'tinaData?.data?.page': tinaData?.data?.page,
+        'tinaData?.data?.page?.overview': tinaData?.data?.page?.overview,
+        'tinaData?.data?.page?.overview?.blocks': tinaData?.data?.page?.overview?.blocks
+      });
+      
       if (tinaData?.data?.page) {
         return {
           frontmatter: tinaData.data.page,
