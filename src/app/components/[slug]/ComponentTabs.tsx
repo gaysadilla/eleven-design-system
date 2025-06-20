@@ -11,6 +11,7 @@ import TableOfContents from '@/components/ui/table-of-contents';
 import { TinaComponents } from '@/components/tina/TinaComponents';
 import { BlockRenderer } from '@/components/tina/BlockRenderer';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
+import { tinaField } from 'tinacms/dist/react';
 
 interface ComponentTabsProps {
   data: any;
@@ -226,9 +227,9 @@ function OverviewTab({ data }: { data: any }) {
 
         {/* Content Blocks */}
         {safeBlocks.length > 0 && (
-          <div className="space-y-6">
+          <div className="space-y-6" data-tina-field={tinaField(data, 'overview.blocks')}>
             {safeBlocks.map((block: any, index: number) => (
-              <div key={index}>
+              <div key={index} data-tina-field={tinaField(data, `overview.blocks.${index}`)}>
                 <BlockRenderer 
                   blocks={[block]} 
                 />
@@ -632,7 +633,7 @@ export default function ComponentTabs({ data }: ComponentTabsProps) {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
-            <h1 className="text-3xl font-bold text-foreground">
+            <h1 className="text-3xl font-bold text-foreground" data-tina-field={tinaField(enhancedData, 'title')}>
               {enhancedData.title}
             </h1>
             <StatusBadge status={enhancedData.status} />
@@ -647,7 +648,7 @@ export default function ComponentTabs({ data }: ComponentTabsProps) {
         </div>
         
         {enhancedData.description && (
-          <p className="text-lg text-muted-foreground mb-6">
+          <p className="text-lg text-muted-foreground mb-6" data-tina-field={tinaField(enhancedData, 'description')}>
             {enhancedData.description}
           </p>
         )}

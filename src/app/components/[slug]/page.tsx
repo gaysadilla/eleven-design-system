@@ -1,101 +1,72 @@
-'use client';
-
 import { client } from '../../../../tina/__generated__/client';
-import { useTina } from 'tinacms/dist/react';
 import ComponentTabs from './ComponentTabs';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import TinaWrapper from './TinaWrapper';
 
-interface ComponentPageProps {
-  params: Promise<{ slug: string }>;
+interface ComponentPageData {
+  frontmatter: any;
+  tinaData?: any;
 }
 
-export default function ComponentPage({ params }: ComponentPageProps) {
-  const [slug, setSlug] = useState<string>('');
-  const [pageData, setPageData] = useState<any>(null);
-  const [query, setQuery] = useState<string>('');
-  const [variables, setVariables] = useState<any>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+async function getComponentData(slug: string): Promise<ComponentPageData | null> {
+  // Try different case variations for file names
+  const variations = [
+    slug,
+    slug.toLowerCase(), 
+    slug.charAt(0).toUpperCase() + slug.slice(1).toLowerCase(),
+    slug.toUpperCase(),
+    slug.charAt(0).toUpperCase() + slug.slice(1)
+  ];
 
-  useEffect(() => {
-    const loadParams = async () => {
-      const resolvedParams = await params;
-      setSlug(resolvedParams.slug);
-    };
-    loadParams();
-  }, [params]);
-
-  useEffect(() => {
-    if (!slug) return;
-
-    const loadPageData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // Try different case variations for file names
-        const variations = [
-          slug,
-          slug.toLowerCase(), 
-          slug.charAt(0).toUpperCase() + slug.slice(1).toLowerCase(),
-          slug.toUpperCase(),
-          slug.charAt(0).toUpperCase() + slug.slice(1)
-        ];
-
-        let pageResponse = null;
-        for (const variation of variations) {
-          try {
-            pageResponse = await client.queries.page({
-              relativePath: `${variation}.mdx`,
-            });
-            if (pageResponse?.data?.page) {
-              break;
-            }
-          } catch (err) {
-            continue;
-          }
-        }
-
-        if (!pageResponse?.data?.page) {
-          setError('Page not found');
-          return;
-        }
-
-        setPageData(pageResponse.data);
-        setQuery(pageResponse.query);
-        setVariables(pageResponse.variables);
-      } catch (err) {
-        console.error('Error loading page data:', err);
-        setError('Failed to load page data');
-      } finally {
-        setLoading(false);
+  // Try TinaCMS with different case variations
+  for (const variation of variations) {
+    try {
+      const tinaData = await client.queries.page({
+        relativePath: `${variation}.mdx`,
+      });
+      
+      if (tinaData?.data?.page) {
+        return {
+          frontmatter: tinaData.data.page,
+          tinaData
+        };
       }
-    };
-
-    loadPageData();
-  }, [slug]);
-
-  // Use standard TinaCMS hook
-  const tina = pageData ? useTina({
-    query,
-    variables,
-    data: pageData,
-  }) : null;
-
-  if (loading) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="text-center">
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    );
+    } catch (error) {
+      continue;
+    }
   }
 
-  if (error || !pageData) {
+  return null;
+}
+
+export async function generateStaticParams() {
+  const params: { slug: string }[] = [];
+
+  // Get pages from TinaCMS
+  try {
+    const pages = await client.queries.pageConnection();
+    const tinaPages = pages.data.pageConnection.edges?.map((edge: any) => ({
+      slug: edge?.node?._sys.filename.replace(/\.mdx?$/, '').toLowerCase() || ''
+    })).filter(Boolean) || [];
+    params.push(...tinaPages);
+  } catch (error) {
+    console.error('Failed to get TinaCMS pages:', error);
+  }
+
+  return params;
+}
+
+export default async function ComponentPage({ 
+  params 
+}: { 
+  params: Promise<{ slug: string }> 
+}) {
+  const { slug } = await params;
+  const data = await getComponentData(slug);
+  
+  if (!data) {
     return (
       <div className="container mx-auto py-8">
         <div className="text-center">
@@ -109,12 +80,15 @@ export default function ComponentPage({ params }: ComponentPageProps) {
     );
   }
 
-  // Use the data from TinaCMS (will be reactive in edit mode)
-  const data = tina?.data?.page || pageData.page;
-
   return (
     <ErrorBoundary>
-      <ComponentTabs data={data} />
+      <TinaWrapper 
+        query={data.tinaData.query}
+        variables={data.tinaData.variables}
+        data={data.tinaData.data}
+      >
+        {(tinaData) => <ComponentTabs data={tinaData} />}
+      </TinaWrapper>
     </ErrorBoundary>
   );
 } 
