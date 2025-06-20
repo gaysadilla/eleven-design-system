@@ -9,7 +9,7 @@
     "dev:cleanup": "pkill -f 'next dev' || true && pkill -f tinacms || true && sleep 2",
     "dev:status": "echo '=== Development Server Status ===' && lsof -i :3000 -i :4001 -i :9001 || echo 'No servers running'",
     "dev:tina": "tinacms dev -c \"next dev\"",
-    "build": "tinacms build --skip-cloud-checks && next build",
+    "build": "npx @tinacms/cli build && next build",
     "build:cloud": "tinacms build --skip-cloud-checks && next build",
     "start": "next start",
     "lint": "next lint",
