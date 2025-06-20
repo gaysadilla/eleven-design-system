@@ -188,23 +188,8 @@ function renderRichContent(content: any): React.ReactNode {
 }
 
 function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
-  // Debug logging to understand data structure
-  console.log('🔍 OverviewTab Debug - data:', data);
-  console.log('🔍 OverviewTab Debug - tinaProps:', tinaProps);
-  console.log('🔍 OverviewTab Debug - tinaData:', tinaData);
-  console.log('🔍 OverviewTab Debug - isEditing:', isEditing);
-  console.log('🔍 OverviewTab Debug - data?.overview:', data?.overview);
-  console.log('🔍 OverviewTab Debug - data?.overview?.blocks:', data?.overview?.blocks);
-
   // Use enhanced data from TinaCMS if available
-  const blockData = tinaProps?.data?.page || tinaProps?.data || data;
-  // Use TinaCMS data for tinaField calls if available
-  const tinaDataForFields = tinaProps?.data?.page || tinaProps?.data || data;
-  
-  console.log('🔍 BlockData Debug - blockData:', blockData);
-  console.log('🔍 BlockData Debug - blockData?.overview:', blockData?.overview);
-  console.log('🔍 BlockData Debug - blockData?.overview?.blocks:', blockData?.overview?.blocks);
-  console.log('🔍 BlockData Debug - Array.isArray(blockData?.overview?.blocks):', Array.isArray(blockData?.overview?.blocks));
+  const blockData = tinaData?.data?.page || tinaProps?.data?.page || tinaProps?.data || data;
   
   // Ensure blocks is always an array to prevent length errors
   const safeBlocks = Array.isArray(blockData?.overview?.blocks) ? blockData.overview.blocks : [];
@@ -240,17 +225,32 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
         {safeBlocks.length > 0 && (
           <div className="space-y-6">
             {safeBlocks.map((block: any, index: number) => (
-                              <div
-                  key={index}
-                  data-tina-field={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
-                  className={isEditing ? 'tina-block-editable' : ''}
-                >
-                  <BlockRenderer 
-                    blocks={[block]} 
-                    tinaField={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, `overview.blocks.${index}`) : undefined}
-                  />
-                </div>
+              <div
+                key={index}
+                data-tina-field={isEditing && tinaData ? tinaField(tinaData.data.page, `overview.blocks.${index}`) : undefined}
+                className={isEditing ? 'tina-block-editable border-2 border-dashed border-blue-300 p-4 rounded-lg hover:border-blue-500 transition-colors relative' : ''}
+              >
+                {isEditing && (
+                  <div className="absolute -top-2 -left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                    Block {index + 1}
+                  </div>
+                )}
+                <BlockRenderer 
+                  blocks={[block]} 
+                  tinaField={isEditing && tinaData ? tinaField(tinaData.data.page, `overview.blocks.${index}`) : undefined}
+                />
+              </div>
             ))}
+          </div>
+        )}
+
+        {/* Add Block Button - Only in editing mode */}
+        {isEditing && (
+          <div className="mt-6 p-4 border-2 border-dashed border-gray-300 rounded-lg text-center">
+            <p className="text-sm text-gray-500 mb-2">Add new content block</p>
+            <p className="text-xs text-gray-400">
+              Use the TinaCMS sidebar to add new blocks to this section
+            </p>
           </div>
         )}
 
@@ -258,7 +258,7 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
         {blockData.content && (
           <div 
             className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing && tinaProps && tinaDataForFields ? tinaField(tinaDataForFields, 'content') : undefined}
+            data-tina-field={isEditing && tinaData ? tinaField(tinaData.data.page, 'content') : undefined}
           >
             {isEditing && (
               <div className="text-sm text-blue-600 mb-4 font-medium">
@@ -670,18 +670,16 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
   const tinaData = React.useMemo(() => {
     try {
       if (isEditing && query && variables && data) {
-        console.log('🔍 ComponentTabs useTina - About to call useTina with:', { query: !!query, variables, data });
         const result = useTina({
           query,
           variables,
           data: { page: data }
         });
-        console.log('🔍 ComponentTabs useTina - Result:', result);
         return result;
       }
       return null;
     } catch (error) {
-      console.error('🔍 ComponentTabs useTina - Error:', error);
+      console.error('TinaCMS useTina error:', error);
       return null;
     }
   }, [isEditing, query, variables, data]);
