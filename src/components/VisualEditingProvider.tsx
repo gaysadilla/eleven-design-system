@@ -107,11 +107,14 @@ export default function VisualEditingProvider({
           {isEditing && (
             <div className="fixed top-0 left-0 right-0 z-50 bg-blue-600 text-white px-4 py-2 text-sm">
               <div className="flex items-center justify-between">
-                <span>🎨 Visual Editing Mode - Click on content to edit inline</span>
+                <span>🎨 Visual Editing Mode - For full editing, use TinaCMS Admin</span>
                 <div className="flex items-center space-x-4">
-                  <span className="text-xs opacity-75">
-                    Hover over content to see edit options
-                  </span>
+                  <a 
+                    href="/admin"
+                    className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-400 border border-blue-400"
+                  >
+                    Open TinaCMS Admin
+                  </a>
                   <a 
                     href={typeof window !== 'undefined' ? window.location.pathname : '/'}
                     className="bg-white text-blue-600 px-3 py-1 rounded text-xs hover:bg-gray-100"
