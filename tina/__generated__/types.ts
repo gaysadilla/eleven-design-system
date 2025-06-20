@@ -3348,7 +3348,8 @@ export const ExperimentalGetTinaClient = () => {
   const token = process.env.TINA_TOKEN || "";
   const branch = process.env.NEXT_PUBLIC_TINA_BRANCH || process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF || "main";
 
-  const apiUrl = isProduction && clientId 
+  // Always use TinaCloud if we have clientId, regardless of NODE_ENV
+  const apiUrl = clientId 
     ? `https://content.tinajs.io/content/${clientId}/github/${branch}`
     : "http://localhost:4001/graphql";
 

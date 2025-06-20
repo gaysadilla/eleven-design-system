@@ -28,12 +28,17 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
   // First try TinaCMS with different case variations
   for (const variation of variations) {
     try {
+      console.log(`🔍 Attempting TinaCMS query for: ${variation}.mdx`);
+      
       const tinaData = await client.queries.page({
         relativePath: `${variation}.mdx`,
       });
       
       console.log('🔍 TinaCMS Query Result:', {
         variation,
+        success: !!tinaData,
+        hasData: !!tinaData?.data,
+        hasPage: !!tinaData?.data?.page,
         tinaData,
         'tinaData?.data': tinaData?.data,
         'tinaData?.data?.page': tinaData?.data?.page,
@@ -42,16 +47,19 @@ async function getComponentData(slug: string): Promise<ComponentPageData | null>
       });
       
       if (tinaData?.data?.page) {
+        console.log('✅ TinaCMS query successful, returning data');
         return {
           frontmatter: tinaData.data.page,
           content: '',
           source: 'tina',
           tinaData
         };
+      } else {
+        console.log('❌ TinaCMS query returned no page data');
       }
     } catch (error) {
       // Continue to next variation
-      console.log(`TinaCMS failed for ${variation}.mdx:`, error instanceof Error ? error.message : error);
+      console.error(`❌ TinaCMS failed for ${variation}.mdx:`, error);
       continue;
     }
   }
