@@ -8,7 +8,7 @@ import CacheRefreshButton from "../src/components/tina/CacheRefreshButton";
 export default defineConfig({
   branch: "main",
   // For local development, these can be empty
-  clientId: process.env.TINA_CLIENT_ID || "",
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
 
   build: {
