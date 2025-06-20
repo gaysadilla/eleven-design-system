@@ -134,20 +134,14 @@ export default async function ComponentPage({
         </div>
 
         <div className="mt-8">
-          <h2 className="text-xl font-bold mb-4">Now Testing TinaWrapper:</h2>
+          <h2 className="text-xl font-bold mb-4">Now Testing TinaWrapper (Fixed):</h2>
           <ErrorBoundary>
             <TinaWrapper 
               query={data.tinaData.query}
               variables={data.tinaData.variables}
               data={data.tinaData.data}
-            >
-              {(tinaData) => (
-                <div className="bg-green-50 p-4 rounded">
-                  <p>TinaWrapper is working!</p>
-                  <p>Data title: {tinaData?.title}</p>
-                </div>
-              )}
-            </TinaWrapper>
+              pageData={data.frontmatter}
+            />
           </ErrorBoundary>
         </div>
         
