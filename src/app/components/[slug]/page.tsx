@@ -5,8 +5,10 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import TinaWrapper from './TinaWrapper';
 
-// Force dynamic rendering to avoid build-time errors
+// Configure page behavior
+export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface ComponentPageData {
   frontmatter: any;
@@ -65,12 +67,11 @@ export async function generateStaticParams() {
 export default async function ComponentPage({ 
   params 
 }: { 
-  params: { slug: string } 
+  params: Promise<{ slug: string }> 
 }) {
   try {
-    // Handle both sync and async params for Next.js compatibility
-    const resolvedParams = await Promise.resolve(params);
-    const slug = resolvedParams.slug;
+    // Await the params promise (Next.js 15 requirement)
+    const { slug } = await params;
     
     console.log('Fetching component data for slug:', slug);
     const data = await getComponentData(slug);
