@@ -508,3 +508,29 @@ TINA_TOKEN=your_token
 ---
 
 **Built with ❤️ using Next.js, TinaCMS, and the power of semantic theming** # TinaCloud Integration Complete
+
+## 🚨 IMPORTANT: TinaCMS Cloud Setup
+
+This project uses **TinaCMS Cloud** (not local TinaCMS). Visual editing works through the TinaCloud interface.
+
+### How to Edit Content:
+1. Go to https://app.tina.io
+2. Log in and select your project
+3. Click "Open Editor"
+4. Select a page to edit with visual editing
+
+**Note**: Visual editing does NOT work by going to `/admin` on your site. You must access it through TinaCloud.
+
+### Development:
+```bash
+npm run dev  # For local development (viewing only)
+```
+
+### Required Vercel Environment Variables:
+```
+NEXT_PUBLIC_TINA_CLIENT_ID=d34d54f8-0563-4bee-8bd1-ef3a6d3498d4
+TINA_TOKEN=[Your read-only token from TinaCloud]
+NEXT_PUBLIC_TINA_BRANCH=main
+```
+
+See `TINACLOUD_VISUAL_EDITING_FIX.md` for troubleshooting visual editing issues.

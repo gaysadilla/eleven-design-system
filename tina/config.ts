@@ -28,13 +28,18 @@ export default defineConfig({
     },
   },
 
-  // Enable preview and editing functionality
+  // Visual editing configuration for TinaCloud
   ui: {
     previewUrl: ({ branch }) => {
-      return {
-        url: process.env.NODE_ENV === 'development' 
+      // Use the deployed URL for visual editing
+      const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : process.env.NODE_ENV === 'development'
           ? 'http://localhost:3000'
-          : 'https://eleven-design-system.vercel.app'
+          : 'https://eleven-design-system.vercel.app';
+      
+      return {
+        url: baseUrl
       };
     },
   },
