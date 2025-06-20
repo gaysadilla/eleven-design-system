@@ -1,132 +1,101 @@
+'use client';
+
 import { client } from '../../../../tina/__generated__/client';
-import { readFileSync, readdirSync } from 'fs';
-import { join } from 'path';
-import matter from 'gray-matter';
+import { useTina } from 'tinacms/dist/react';
+import ComponentTabs from './ComponentTabs';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import ComponentTabs from './ComponentTabs';
-import VisualEditingProvider from '@/components/VisualEditingProvider';
-import ErrorBoundary from '@/components/ErrorBoundary';
 
-interface ComponentPageData {
-  frontmatter: any;
-  content: string;
-  source: 'tina' | 'file';
-  tinaData?: any;
+interface ComponentPageProps {
+  params: Promise<{ slug: string }>;
 }
 
-async function getComponentData(slug: string): Promise<ComponentPageData | null> {
-  // Try different case variations for file names
-  const variations = [
-    slug,
-    slug.toLowerCase(), 
-    slug.charAt(0).toUpperCase() + slug.slice(1).toLowerCase(),
-    slug.toUpperCase(),
-    slug.charAt(0).toUpperCase() + slug.slice(1)
-  ];
+export default function ComponentPage({ params }: ComponentPageProps) {
+  const [slug, setSlug] = useState<string>('');
+  const [pageData, setPageData] = useState<any>(null);
+  const [query, setQuery] = useState<string>('');
+  const [variables, setVariables] = useState<any>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // First try TinaCMS with different case variations
-  for (const variation of variations) {
-    try {
-      const tinaData = await client.queries.page({
-        relativePath: `${variation}.mdx`,
-      });
-      
-      if (tinaData?.data?.page) {
-        return {
-          frontmatter: tinaData.data.page,
-          content: '',
-          source: 'tina',
-          tinaData
-        };
-      }
-          } catch (error) {
-        // Continue to next variation
-        continue;
-      }
-  }
+  useEffect(() => {
+    const loadParams = async () => {
+      const resolvedParams = await params;
+      setSlug(resolvedParams.slug);
+    };
+    loadParams();
+  }, [params]);
 
-  // Fallback to file-based content if TinaCMS fails
-  try {
-    const contentDir = join(process.cwd(), 'content', 'pages');
-    
-    for (const variation of variations) {
+  useEffect(() => {
+    if (!slug) return;
+
+    const loadPageData = async () => {
       try {
-        const filePath = join(contentDir, `${variation}.mdx`);
-        const fileContent = readFileSync(filePath, 'utf8');
-        const { data: frontmatter, content } = matter(fileContent);
-        
-        console.log(`Using file-based fallback for ${variation}.mdx`);
-        return {
-          frontmatter,
-          content,
-          source: 'file'
-        };
-      } catch (error) {
-        continue;
+        setLoading(true);
+        setError(null);
+
+        // Try different case variations for file names
+        const variations = [
+          slug,
+          slug.toLowerCase(), 
+          slug.charAt(0).toUpperCase() + slug.slice(1).toLowerCase(),
+          slug.toUpperCase(),
+          slug.charAt(0).toUpperCase() + slug.slice(1)
+        ];
+
+        let pageResponse = null;
+        for (const variation of variations) {
+          try {
+            pageResponse = await client.queries.page({
+              relativePath: `${variation}.mdx`,
+            });
+            if (pageResponse?.data?.page) {
+              break;
+            }
+          } catch (err) {
+            continue;
+          }
+        }
+
+        if (!pageResponse?.data?.page) {
+          setError('Page not found');
+          return;
+        }
+
+        setPageData(pageResponse.data);
+        setQuery(pageResponse.query);
+        setVariables(pageResponse.variables);
+      } catch (err) {
+        console.error('Error loading page data:', err);
+        setError('Failed to load page data');
+      } finally {
+        setLoading(false);
       }
-    }
-  } catch (error) {
-    console.error(`Failed to load component: ${slug}`, error);
+    };
+
+    loadPageData();
+  }, [slug]);
+
+  // Use standard TinaCMS hook
+  const tina = pageData ? useTina({
+    query,
+    variables,
+    data: pageData,
+  }) : null;
+
+  if (loading) {
+    return (
+      <div className="container mx-auto py-8">
+        <div className="text-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
   }
 
-  return null;
-}
-
-export async function generateStaticParams() {
-  const params: { slug: string }[] = [];
-
-  // Get pages from TinaCMS
-  try {
-    const pages = await client.queries.pageConnection();
-    const tinaPages = pages.data.pageConnection.edges?.map((edge: any) => ({
-      slug: edge?.node?._sys.filename.toLowerCase() || ''
-    })).filter(Boolean) || [];
-    params.push(...tinaPages);
-  } catch (error) {
-    console.error('Failed to get TinaCMS pages:', error);
-  }
-
-  // Get pages from file system as fallback
-  try {
-    const contentDir = join(process.cwd(), 'content', 'pages');
-    const files = readdirSync(contentDir);
-    const filePages = files
-      .filter(file => file.endsWith('.mdx'))
-      .map(file => ({
-        slug: file.replace('.mdx', '').toLowerCase()
-      }));
-    
-    // Merge and deduplicate
-    const existingSlugs = new Set(params.map(p => p.slug));
-    filePages.forEach(page => {
-      if (!existingSlugs.has(page.slug)) {
-        params.push(page);
-      }
-    });
-  } catch (error) {
-    console.error('Failed to get file-based pages:', error);
-  }
-
-  return params;
-}
-
-export default async function ComponentPage({ 
-  params, 
-  searchParams 
-}: { 
-  params: Promise<{ slug: string }>; 
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }> 
-}) {
-  const { slug } = await params;
-  const search = await searchParams;
-  const data = await getComponentData(slug);
-  
-  // Check if we're in visual editing mode
-  const isEditing = search?.edit === 'true' || search?.tina === 'true' || 
-                   (typeof window !== 'undefined' && window.parent !== window); // iframe detection
-  
-  if (!data) {
+  if (error || !pageData) {
     return (
       <div className="container mx-auto py-8">
         <div className="text-center">
@@ -140,30 +109,12 @@ export default async function ComponentPage({
     );
   }
 
-  // If we have TinaCMS data, use visual editing provider
-  if (data.source === 'tina' && data.tinaData) {
-    return (
-      <ErrorBoundary>
-        <VisualEditingProvider
-          query={data.tinaData.query}
-          variables={data.tinaData.variables}
-          data={data.tinaData.data}
-        >
-          <ComponentTabs 
-            data={data.frontmatter} 
-            isEditing={isEditing} 
-            query={data.tinaData.query}
-            variables={data.tinaData.variables}
-          />
-        </VisualEditingProvider>
-      </ErrorBoundary>
-    );
-  }
+  // Use the data from TinaCMS (will be reactive in edit mode)
+  const data = tina?.data?.page || pageData.page;
 
-  // Otherwise use regular component tabs (file-based fallback)
   return (
     <ErrorBoundary>
-      <ComponentTabs data={data.frontmatter} isEditing={isEditing} />
+      <ComponentTabs data={data} />
     </ErrorBoundary>
   );
 } 

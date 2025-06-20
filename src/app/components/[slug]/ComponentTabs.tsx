@@ -11,14 +11,9 @@ import TableOfContents from '@/components/ui/table-of-contents';
 import { TinaComponents } from '@/components/tina/TinaComponents';
 import { BlockRenderer } from '@/components/tina/BlockRenderer';
 import { TinaMarkdown } from 'tinacms/dist/rich-text';
-import { tinaField, useTina } from 'tinacms/dist/react';
 
 interface ComponentTabsProps {
   data: any;
-  isEditing?: boolean;
-  tinaProps?: any;
-  query?: string;
-  variables?: any;
 }
 
 function StatusBadge({ status }: { status?: string }) {
@@ -187,9 +182,9 @@ function renderRichContent(content: any): React.ReactNode {
   });
 }
 
-function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
-  // Use enhanced data from TinaCMS if available
-  const blockData = tinaData?.data?.page || tinaProps?.data?.page || tinaProps?.data || data;
+function OverviewTab({ data }: { data: any }) {
+  // Use the data directly - TinaCMS will handle editing automatically
+  const blockData = data;
   
   // Ensure blocks is always an array to prevent length errors
   const safeBlocks = React.useMemo(() => {
@@ -201,7 +196,7 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
       return [];
     }
   }, [blockData]);
-  
+
   const tocConfig = {
     enabled: blockData.tableOfContents?.enabled ?? true,
     maxDepth: blockData.tableOfContents?.maxDepth ?? 4,
@@ -229,77 +224,32 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
           </div>
         )}
 
-                {/* Content Blocks - Visual Editing */}
+        {/* Content Blocks */}
         {safeBlocks.length > 0 && (
           <div className="space-y-6">
             {safeBlocks.map((block: any, index: number) => (
-              <div
-                key={index}
-                data-tina-field={isEditing && tinaData ? tinaField(tinaData.data.page, `overview.blocks.${index}`) : undefined}
-                className={isEditing ? 'tina-block-editable border-2 border-dashed border-blue-300 p-4 rounded-lg hover:border-blue-500 transition-colors relative' : ''}
-              >
-                {isEditing && (
-                  <div className="absolute -top-2 -left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
-                    Block {index + 1}
-                  </div>
-                )}
+              <div key={index}>
                 <BlockRenderer 
                   blocks={[block]} 
-                  tinaField={isEditing && tinaData ? tinaField(tinaData.data.page, `overview.blocks.${index}`) : undefined}
                 />
               </div>
             ))}
           </div>
         )}
 
-        {/* Add Block Button - Only in editing mode */}
-        {isEditing && (
-          <div className="mt-6 p-4 border-2 border-dashed border-blue-300 rounded-lg text-center bg-blue-50">
-            <p className="text-sm text-blue-700 mb-2">✨ Ready to edit content?</p>
-            <p className="text-xs text-blue-600 mb-3">
-              For full editing capabilities, open this page in TinaCMS Admin
-            </p>
-            <a
-              href="/admin"
-              className="inline-flex items-center px-3 py-2 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors"
-            >
-              Open TinaCMS Admin
-            </a>
-          </div>
-        )}
-
         {/* Legacy Content Support */}
         {blockData.content && (
-          <div 
-            className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing && tinaData ? tinaField(tinaData.data.page, 'content') : undefined}
-          >
-            {isEditing && (
-              <div className="text-sm text-blue-600 mb-4 font-medium">
-                📝 Content (Click to edit)
-              </div>
-            )}
+          <div className="prose prose-gray max-w-none">
             <TinaMarkdown content={blockData.content} />
           </div>
         )}
 
         {/* Fallback for pages without blocks or content */}
         {!blockData.overview?.blocks && !blockData.content && (
-          <div className={`p-8 border-2 border-dashed border-gray-300 rounded-lg text-center ${isEditing ? 'tina-editing-mode' : ''}`}>
+          <div className="p-8 border-2 border-dashed border-gray-300 rounded-lg text-center">
             <div className="text-gray-500">
-              {isEditing ? (
-                <>
-                  <div className="text-lg font-medium mb-2">No content blocks yet</div>
-                  <div className="text-sm">
-                    Go to TinaCMS admin to add content blocks, or click the "Edit This Page" button to add content.
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="text-lg font-medium mb-2">Content coming soon</div>
-                  <div className="text-sm">This component documentation is being developed.</div>
-                </>
-              )}
+              <div className="text-lg font-medium mb-2">Content coming soon</div>
+              <div className="text-sm">This component documentation is being developed.</div>
             </div>
           </div>
         )}
@@ -339,7 +289,7 @@ function OverviewTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEd
   );
 }
 
-function SpecsTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
+function SpecsTab({ data }: { data: any }) {
   const tocConfig = {
     enabled: data.tableOfContents?.enabled ?? true,
     maxDepth: data.tableOfContents?.maxDepth ?? 4,
@@ -353,15 +303,7 @@ function SpecsTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditi
       <div className="flex-1 max-w-4xl space-y-6">
         {/* Content */}
         {data.specs?.content && (
-          <div 
-            className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing ? tinaField(data.specs, 'content') : undefined}
-          >
-            {isEditing && (
-              <div className="text-sm text-blue-600 mb-4 font-medium">
-                📝 Specs Content (Click to edit)
-              </div>
-            )}
+          <div className="prose prose-gray max-w-none">
             {renderRichContent(data.specs.content)}
           </div>
         )}
@@ -455,7 +397,7 @@ function SpecsTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditi
   );
 }
 
-function GuidelinesTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
+function GuidelinesTab({ data }: { data: any }) {
   const tocConfig = {
     enabled: data.tableOfContents?.enabled ?? true,
     maxDepth: data.tableOfContents?.maxDepth ?? 4,
@@ -469,15 +411,7 @@ function GuidelinesTab({ data, isEditing, tinaProps, tinaData }: { data: any; is
       <div className="flex-1 max-w-4xl space-y-6">
         {/* Content */}
         {data.guidelines?.content && (
-          <div 
-            className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing ? tinaField(data.guidelines, 'content') : undefined}
-          >
-            {isEditing && (
-              <div className="text-sm text-blue-600 mb-4 font-medium">
-                📝 Guidelines Content (Click to edit)
-              </div>
-            )}
+          <div className="prose prose-gray max-w-none">
             {renderRichContent(data.guidelines.content)}
           </div>
         )}
@@ -566,7 +500,7 @@ function GuidelinesTab({ data, isEditing, tinaProps, tinaData }: { data: any; is
   );
 }
 
-function CodeTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditing?: boolean; tinaProps?: any; tinaData?: any }) {
+function CodeTab({ data }: { data: any }) {
   const tocConfig = {
     enabled: data.tableOfContents?.enabled ?? true,
     maxDepth: data.tableOfContents?.maxDepth ?? 4,
@@ -580,15 +514,7 @@ function CodeTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditin
       <div className="flex-1 max-w-4xl space-y-6">
         {/* Content */}
         {data.code?.content && (
-          <div 
-            className={`prose prose-gray max-w-none ${isEditing ? 'tina-editing-mode' : ''}`}
-            data-tina-field={isEditing ? tinaField(data.code, 'content') : undefined}
-          >
-            {isEditing && (
-              <div className="text-sm text-blue-600 mb-4 font-medium">
-                📝 Code Content (Click to edit)
-              </div>
-            )}
+          <div className="prose prose-gray max-w-none">
             {renderRichContent(data.code.content)}
           </div>
         )}
@@ -677,14 +603,11 @@ function CodeTab({ data, isEditing, tinaProps, tinaData }: { data: any; isEditin
   );
 }
 
-export default function ComponentTabs({ data, isEditing, tinaProps, query, variables }: ComponentTabsProps) {
+export default function ComponentTabs({ data }: ComponentTabsProps) {
   const [activeTab, setActiveTab] = useState('overview');
   
-  // Use the TinaCMS data passed from VisualEditingProvider
-  const tinaData = tinaProps;
-  
-  // Use the enhanced data from TinaCMS or fallback to original data
-  const enhancedData = tinaData?.data?.page || tinaProps?.data || data;
+      // Use the data directly (TinaCMS will handle editing automatically)
+    const enhancedData = data;
   
 
 
@@ -703,25 +626,13 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
 
   return (
     <div className="container mx-auto py-8">
-      {/* Visual Editing Indicator */}
-      {isEditing && (
-        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-center space-x-2 text-blue-800">
-            <Info className="w-4 h-4" />
-            <span className="text-sm font-medium">Visual Editing Mode</span>
-          </div>
-          <p className="text-xs text-blue-600 mt-1">Click on text to edit directly. Changes are saved automatically.</p>
-        </div>
-      )}
+
 
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
-            <h1 
-              className="text-3xl font-bold text-foreground"
-              data-tina-field={isEditing ? tinaField(enhancedData, 'title') : undefined}
-            >
+            <h1 className="text-3xl font-bold text-foreground">
               {enhancedData.title}
             </h1>
             <StatusBadge status={enhancedData.status} />
@@ -736,10 +647,7 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
         </div>
         
         {enhancedData.description && (
-          <p 
-            className="text-lg text-muted-foreground mb-6"
-            data-tina-field={isEditing && tinaData ? tinaField(tinaData.data.page, 'description') : undefined}
-          >
+          <p className="text-lg text-muted-foreground mb-6">
             {enhancedData.description}
           </p>
         )}
@@ -793,7 +701,7 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
 
       {/* Tab Content */}
       <div className="mb-12">
-        <ActiveTabComponent data={enhancedData} isEditing={isEditing} tinaProps={tinaProps} tinaData={tinaData} />
+        <ActiveTabComponent data={enhancedData} />
       </div>
 
       {/* Footer Navigation */}
@@ -803,13 +711,6 @@ export default function ComponentTabs({ data, isEditing, tinaProps, query, varia
             <Button variant="outline">← Back to Components</Button>
           </Link>
           <div className="flex items-center space-x-4">
-            {!isEditing && (
-              <Link href={`?edit=true`}>
-                <Button variant="outline" size="sm">
-                  ✏️ Edit This Page
-                </Button>
-              </Link>
-            )}
             {enhancedData.links?.figmaUrl && (
               <Link href={enhancedData.links.figmaUrl}>
                 <Button>
